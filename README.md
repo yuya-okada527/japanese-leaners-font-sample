@@ -58,6 +58,9 @@
     - 場所移すかも？
   - CI -> CodeBuild?
   - CD -> CodePipeline?
+- フレームワーク
+  - FE -> HTML(jinja2) + Bootstrap
+  - BE -> Responder
 
 ### 画面設計
 - 画面一覧
