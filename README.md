@@ -29,3 +29,28 @@
 - インフラ構築
 - デプロイ
 - CI/CD作成
+
+### インフラ設計
+- インフラ -> AWS
+- 実行基盤 -> ? (PaaSがいいけど)
+  - Elastic Beanstalk
+  - ECS
+  - Lambda
+- データストア -> S3
+  - DBは諸々のコストがかかるし、必要ない気がする
+  - バケットは、privateとpublicの2つ
+    - private: フォントやログ出力用
+    - public: 画像や練習用テキストなどの静的ファイル用
+    - publicの方は、CloudFrontを通して、外部に配布する
+- ネットワーク
+  - 冗長化等は行わない
+  - ロードバランサいらない
+  - ドメインはできれば取得したい？
+- CI/CD
+  - レポジトリ -> GitHub
+    - とりあえず、publicリポジトリで作った
+    - 場所移すかも？
+  - CI -> CodeBuild?
+  - CD -> CodePipeline?
+
+
