@@ -59,9 +59,12 @@
     - 場所移すかも？
   - CI -> CodeBuild?
   - CD -> CodePipeline?
+  - CI/CDは、CircleCI -> Elastic Beanstalkを検討
+    - この場合、フレームワークはFlask前提となる
 - フレームワーク
   - FE -> HTML(jinja2) + Bootstrap
-  - BE -> Responder
+  - BE -> Responder or Flask
+  - ランタイム -> Pythonなるべく新しいの使いたいけど実行環境依存
 
 ### 画面設計
 - 画面一覧
