@@ -40,7 +40,13 @@
   - DBは諸々のコストがかかるし、必要ない気がする
   - バケットは、privateとpublicの2つ
     - private: フォントやログ出力用
+      - パス
+        - /fonts
+        - /logs
     - public: 画像や練習用テキストなどの静的ファイル用
+      - パス
+        - /images
+        - /materials
     - publicの方は、CloudFrontを通して、外部に配布する
 - ネットワーク
   - 冗長化等は行わない
@@ -53,4 +59,15 @@
   - CI -> CodeBuild?
   - CD -> CodePipeline?
 
+### 画面設計
+- 画面一覧
+  - 目次
+    - HTML: index.html
+    - Path: /
+  - 教材
+    - HTML: materials.html
+    - Path: /materials
+  - 教材作成
+    - HTML: create.html
+    - Path: /create
 
