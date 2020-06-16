@@ -7,10 +7,15 @@ from flask import (
 app = Flask(__name__)
 
 
-@app.route('/')
+@app.route("/")
 def index():
     name = "Hello World"
-    return render_template("index.html", title="Sample Page", name=name)
+    return render_template("index.html", title="index", name=name)
+
+
+@app.route("/create")
+def create():
+    return render_template("index.html", title="create", name="Create")
 
 
 if __name__ == "__main__":
