@@ -36,6 +36,7 @@
   - Elastic Beanstalk
   - ECS
   - Lambda
+    - 価格的には、Lambdaで行きたいかも
 - データストア -> S3
   - DBは諸々のコストがかかるし、必要ない気がする
   - バケットは、privateとpublicの2つ
@@ -56,6 +57,7 @@
   - VPC
     - インターネットゲートウェイは必要
     - publicサブネットを一つ切っておくくらいでいい気がする
+    - LambdaならVPCは考えなくていい
 - CI/CD
   - レポジトリ -> GitHub
     - とりあえず、publicリポジトリで作った
@@ -68,6 +70,11 @@
   - FE -> HTML(jinja2) + Bootstrap
   - BE -> Responder or Flask
   - ランタイム -> Pythonなるべく新しいの使いたいけど実行環境依存
+  - Lambdaなら、Zappa + Flask or SPAでBEはPure Python
+    - SPAだと、JSが技術スタックに入るのが考えもん
+- PDF操作ライブラリ
+  - ReportLabが良さそう
+    - ただ、フォントがTTFの必要があるみたいだから、ttfで用意できないか聞いてみる
 
 ### 画面設計
 - 画面一覧
