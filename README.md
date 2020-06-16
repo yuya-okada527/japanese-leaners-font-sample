@@ -98,4 +98,10 @@
   - 教材作成
     - HTML: create.html
     - Path: /create
+    
+### 起動方法
+```bash
+$ python -m web.main
+
+```
 
