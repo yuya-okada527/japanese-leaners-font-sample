@@ -72,6 +72,7 @@
   - ランタイム -> Pythonなるべく新しいの使いたいけど実行環境依存
   - Lambdaなら、Zappa + Flask or SPAでBEはPure Python
     - SPAだと、JSが技術スタックに入るのが考えもん
+  - デモは、さっくり適当に作る
 - PDF操作ライブラリ
   - ReportLabが良さそう
     - ただ、フォントがTTFの必要があるみたいだから、ttfで用意できないか聞いてみる
