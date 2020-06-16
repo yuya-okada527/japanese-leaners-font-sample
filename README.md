@@ -37,13 +37,17 @@
   - ECS
   - Lambda
     - 価格的には、Lambdaで行きたいかも
+  - デモは、Elastic Beanstalkで、本番作るなら、Lambdaに作り直す
 - データストア -> S3
   - DBは諸々のコストがかかるし、必要ない気がする
   - バケットは、privateとpublicの2つ
     - private: フォントやログ出力用
       - パス
         - /fonts
+        - /fonts/ots
+        - /fonts/tts
         - /logs
+      - otsとttsはディレクトリ分ける
     - public: 画像や練習用テキストなどの静的ファイル用
       - パス
         - /images
@@ -66,6 +70,7 @@
   - CD -> CodePipeline?
   - CI/CDは、CircleCI -> Elastic Beanstalkを検討
     - この場合、フレームワークはFlask前提となる
+  - デモではCI/CDまでは作らない
 - フレームワーク
   - FE -> HTML(jinja2) + Bootstrap
   - BE -> Responder or Flask
@@ -73,9 +78,14 @@
   - Lambdaなら、Zappa + Flask or SPAでBEはPure Python
     - SPAだと、JSが技術スタックに入るのが考えもん
   - デモは、さっくり適当に作る
+    - FlaskでPython3.7
 - PDF操作ライブラリ
   - ReportLabが良さそう
     - ただ、フォントがTTFの必要があるみたいだから、ttfで用意できないか聞いてみる
+      - TTFフォントの用意は無理そう
+      - OTFからTTFに変換するコマンドラインツールを利用する
+        - https://pypi.org/project/otf2ttf/
+      - 余裕があれば、Lambdaに変換ツール作って、S3へのアップロードをトリガーにして、変換すバッチを仕込む
 
 ### 画面設計
 - 画面一覧
