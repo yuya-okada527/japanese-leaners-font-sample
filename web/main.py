@@ -1,6 +1,7 @@
 from flask import (
     Flask,
-    render_template
+    render_template,
+    make_response
 )
 
 
@@ -15,7 +16,18 @@ def index():
 
 @app.route("/create")
 def create():
-    return render_template("index.html", title="create", name="Create")
+
+    # レスポンスの作成
+    response = make_response()
+
+    # ファイルコンテンツ
+    response.data = "sample contents"
+
+    # ファイル名をセット
+    file_name = "sample.txt"
+    response.headers["Content-Disposition"] = f"attachment; filename={file_name}"
+
+    return response
 
 
 if __name__ == "__main__":
