@@ -2,7 +2,16 @@
 {% block content %}
 <div class="container">
   <h3>Hello</h3>
-  こんにちは。{{ name }}さん。
-  <a href="{{ url_for('create') }}">CREATEリンク</a>
+  <p>
+    こんにちは。{{ name }}さん。
+  </p>
+  <ul>
+    <li><a href="{{ url_for('create') }}">CREATEリンク</a></li>
+  </ul>
+
+  <form method="get" action="{{ url_for('params') }}">
+    <input type="text" name="params" />
+    <input type="submit" value="送信">
+  </form>
 </div>
 {% endblock %}

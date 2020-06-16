@@ -1,5 +1,6 @@
 from flask import (
     Flask,
+    request,
     render_template,
     make_response
 )
@@ -28,6 +29,13 @@ def create():
     response.headers["Content-Disposition"] = f"attachment; filename={file_name}"
 
     return response
+
+
+@app.route("/params")
+def params():
+    query = request.args.get("params")
+
+    return render_template("index.html", title="params", name=query)
 
 
 if __name__ == "__main__":
