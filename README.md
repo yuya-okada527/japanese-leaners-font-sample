@@ -86,6 +86,9 @@
       - OTFからTTFに変換するコマンドラインツールを利用する
         - https://pypi.org/project/otf2ttf/
       - 余裕があれば、Lambdaに変換ツール作って、S3へのアップロードをトリガーにして、変換すバッチを仕込む
+    - ファイル生成は簡単だけど、非同期で作ってる気がする(もしかしたら保存に時間がかかってるだけかもだけど)
+    - ドキュメント: https://www.reportlab.com/docs/reportlab-userguide.pdf
+      - いまどき133ページのドキュメント アホか API docないのかよ
 
 ### 画面設計
 - 画面一覧
@@ -102,7 +105,11 @@
 ### 起動方法
 
 ```bash
+# WEBアプリ
 $ python -m web.main
+
+# サンプルPDF生成
+$ python -m web.pdf
 
 ```
 
