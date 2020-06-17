@@ -11,8 +11,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    name = "Hello World"
-    return render_template("index.html", title="index", name=name)
+    return render_template("index.html")
 
 
 @app.route("/create")
@@ -22,20 +21,16 @@ def create():
     response = make_response()
 
     # ファイルコンテンツ
-    response.data = "sample contents"
+    response.data = request.args.get("string")
+
+    # TODO 動作確認
+    print(request.args.get("string"))
 
     # ファイル名をセット
     file_name = "sample.txt"
     response.headers["Content-Disposition"] = f"attachment; filename={file_name}"
 
     return response
-
-
-@app.route("/params")
-def params():
-    query = request.args.get("params")
-
-    return render_template("index.html", title="params", name=query)
 
 
 if __name__ == "__main__":
