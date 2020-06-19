@@ -9,6 +9,7 @@ from flask import (
 from reportlab.pdfgen import canvas
 
 from .domain.service import get_workbooks, get_workbook
+from .domain.pdf import PdfWriter
 from .logger import create_logger
 
 
@@ -29,7 +30,7 @@ def create():
     log.debug("debug")
 
     # リクエストパラメータを取得
-    message = request.args.get("string")
+    message = request.args.get("text")
 
     # PDFを作成
     with BytesIO() as output:
@@ -64,6 +65,20 @@ def download():
     # レスポンスを作成する
     response = make_response(workbook)
     response.headers['Content-Disposition'] = "attachment; filename=" + "workbook.pdf"  # TODO ファイル名 オリジナルのキー名を使うと文字コード系のエラーがでる
+    response.mimetype = 'application/pdf'
+    return response
+
+
+@app.route("/pdf")
+def pdf():
+
+    # サンプルのPDFファイルを作成する
+    pdf_writer = PdfWriter("abcdef")
+    pdf_file = pdf_writer.write()
+
+    # レスポンスを作成する
+    response = make_response(pdf_file)
+    response.headers['Content-Disposition'] = "attachment; filename=sample.pdf"
     response.mimetype = 'application/pdf'
     return response
 
