@@ -44,7 +44,7 @@
       <h4 class="card-title p-3">教材ダウンロード</h4>
       <ul>
         {% for workbook in workbooks %}
-          <li><a href="{{ workbook.url }}">{{ workbook.name }}</a></li>
+          <li><a href="{{ url_for('download') + '?key=' + workbook.key }}">{{ workbook.name }}</a></li>
         {% endfor %}
       </ul>
     </div>

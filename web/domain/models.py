@@ -1,7 +1,7 @@
 import dataclasses
 
 
-@dataclasses.dataclass
+@dataclasses.dataclass(frozen=True)
 class WorkBook:
+    key: str
     name: str
-    url: str

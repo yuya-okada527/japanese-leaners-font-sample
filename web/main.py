@@ -8,7 +8,7 @@ from flask import (
 )
 from reportlab.pdfgen import canvas
 
-from .models import WorkBook
+from .domain.service import get_workbooks, get_workbook
 from .logger import create_logger
 
 
@@ -19,11 +19,7 @@ log = create_logger(__file__)
 
 @app.route("/")
 def index():
-    workbooks = [
-        WorkBook("name1", "#"),
-        WorkBook("name2", "#")
-    ]
-    return render_template("index.html", workbooks=workbooks)
+    return render_template("index.html", workbooks=get_workbooks())
 
 
 @app.route("/create")
@@ -53,6 +49,22 @@ def create():
     response.headers['Content-Disposition'] = "attachment; filename=sakulaci.pdf"
     response.mimetype = 'application/pdf'
 
+    return response
+
+
+@app.route("/download")
+def download():
+
+    # クエリパラメータからキーを取得
+    key = request.args.get("key")
+
+    # S3から教材を取得
+    workbook = get_workbook(key)
+
+    # レスポンスを作成する
+    response = make_response(workbook)
+    response.headers['Content-Disposition'] = "attachment; filename=" + "workbook.pdf"  # TODO ファイル名 オリジナルのキー名を使うと文字コード系のエラーがでる
+    response.mimetype = 'application/pdf'
     return response
 
 
