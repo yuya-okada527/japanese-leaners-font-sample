@@ -8,7 +8,7 @@ from flask import (
 )
 from reportlab.pdfgen import canvas
 
-from .workbook import WorkBook
+from .models import WorkBook
 
 
 app = Flask(__name__)
