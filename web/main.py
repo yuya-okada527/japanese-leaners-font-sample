@@ -8,13 +8,19 @@ from flask import (
 )
 from reportlab.pdfgen import canvas
 
+from .workbook import WorkBook
+
 
 app = Flask(__name__)
 
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    workbooks = [
+        WorkBook("name1", "#"),
+        WorkBook("name2", "#")
+    ]
+    return render_template("index.html", workbooks=workbooks)
 
 
 @app.route("/create")

@@ -43,7 +43,9 @@
     <div class="card-body">
       <h4 class="card-title p-3">教材ダウンロード</h4>
       <ul>
-        <li><a href="#">新ひらがな練習ノート(五十音順)</a></li>
+        {% for workbook in workbooks %}
+          <li><a href="{{ workbook.url }}">{{ workbook.name }}</a></li>
+        {% endfor %}
       </ul>
     </div>
   </div>
