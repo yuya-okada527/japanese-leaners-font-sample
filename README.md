@@ -110,8 +110,5 @@
 # WEBアプリ
 $ python -m web.main
 
-# サンプルPDF生成
-$ python -m web.pdf
-
 ```
 
