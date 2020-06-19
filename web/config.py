@@ -3,6 +3,8 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
+from .enums import Env
+
 
 ENV_FILE = os.path.join(
     Path(__file__).resolve().parents[1],
@@ -18,7 +20,7 @@ class __Settings:
             load_dotenv(path, verbose=True)
 
         # 環境変数をセット
-        self.env = os.getenv("ENV", "local")
+        self.env = Env.value_of(os.getenv("ENV", "local"))
 
 
 settings = __Settings()

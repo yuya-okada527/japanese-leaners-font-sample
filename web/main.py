@@ -9,9 +9,12 @@ from flask import (
 from reportlab.pdfgen import canvas
 
 from .models import WorkBook
+from .logger import create_logger
 
 
 app = Flask(__name__)
+
+log = create_logger(__file__)
 
 
 @app.route("/")
@@ -25,6 +28,9 @@ def index():
 
 @app.route("/create")
 def create():
+
+    log.info("info")
+    log.debug("debug")
 
     # リクエストパラメータを取得
     message = request.args.get("string")
