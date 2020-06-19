@@ -52,7 +52,9 @@
       - パス
         - /images
         - /materials
+        - /materials/workbooks
     - publicの方は、CloudFrontを通して、外部に配布する
+    - とりあえず、demoではprivateバケットのみ使う
 - ネットワーク
   - 冗長化等は行わない
   - ロードバランサいらない
