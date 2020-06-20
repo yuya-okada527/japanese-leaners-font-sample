@@ -12,10 +12,11 @@ from ..config import settings
 
 class PdfWriter:
 
-    def __init__(self,
-                 text: str,
-                 font_name: str = "JapaneseLearnersFont",
-                 font_size: int = 50):
+    def __init__(
+            self,
+            text: str,
+            font_name: str = "JapaneseLearnersFont",
+            font_size: int = 50):
         self.text = text
         self.font_name = font_name
         self.font_size = font_size
