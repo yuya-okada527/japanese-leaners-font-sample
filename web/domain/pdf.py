@@ -7,7 +7,11 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import Table, TableStyle
 from reportlab.lib.units import mm
 
-from ..config import settings
+from ..infra.s3 import S3Client
+
+
+FONT_KEY = "fonts/ttf/JapaneseLearners1.ttf"
+FONT_FILE = S3Client.get_object(FONT_KEY).get()["Body"].read()
 
 
 class PdfWriter:
@@ -41,7 +45,7 @@ class PdfWriter:
 
             # ドキュメント設定
             # フォントを指定
-            pdfmetrics.registerFont(TTFont(self.font_name, settings.fonts_path))
+            pdfmetrics.registerFont(TTFont(self.font_name, BytesIO(FONT_FILE)))
             doc.setFont(self.font_name, self.font_size)
 
             # テーブルを作成
