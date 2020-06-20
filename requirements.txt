@@ -2,12 +2,15 @@ boto3==1.14.6
 boto3-stubs==1.14.6.0
 botocore==1.17.6
 click==7.1.2
+cu2qu==1.6.7
 docutils==0.15.2
 Flask==1.1.2
+fonttools==4.12.1
 itsdangerous==1.1.0
 Jinja2==2.11.2
 jmespath==0.10.0
 MarkupSafe==1.1.1
+otf2ttf==0.2
 Pillow==7.1.2
 python-dateutil==2.8.1
 python-dotenv==0.13.0
