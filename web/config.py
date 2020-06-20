@@ -12,7 +12,7 @@ ENV_FILE = os.path.join(
 )
 
 DEFAULT_FONT_PATH = os.path.join(
-    Path(__file__).resolve().parents[2],
+    Path(__file__).resolve().parents[0],
     "fonts",
     "ttf",
     "JapaneseLearners1.ttf"
