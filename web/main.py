@@ -1,12 +1,9 @@
-from io import BytesIO
-
 from flask import (
     Flask,
     request,
     render_template,
     make_response
 )
-from reportlab.pdfgen import canvas
 
 from .domain.service import get_workbooks, get_workbook
 from .domain.pdf import PdfWriter
@@ -57,19 +54,5 @@ def download():
     return response
 
 
-@app.route("/pdf")
-def pdf():
-
-    # サンプルのPDFファイルを作成する
-    pdf_writer = PdfWriter("abcdef")
-    pdf_file = pdf_writer.write()
-
-    # レスポンスを作成する
-    response = make_response(pdf_file)
-    response.headers['Content-Disposition'] = "attachment; filename=sample.pdf"
-    response.mimetype = 'application/pdf'
-    return response
-
-
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0")

@@ -108,8 +108,14 @@
 ### 起動方法
 
 ```bash
-# WEBアプリ
+# WEBアプリローカルでの起動方法
 $ python -m web.main
+
+# コンテナビルド
+$ docker build -t jcw-demo:0.0.1 .
+
+# コンテナ起動
+$ docker run --rm --name jcw-demo-app --env-file .env -p 5000:5000 jcw-demo:0.0.1
 
 # OTFからTTFへの変換(結構時間かかる)
 $ otf2ttf ../fonts/otf/JapaneseLearners1.otf
