@@ -26,27 +26,15 @@ def index():
 @app.route("/create")
 def create():
 
-    log.info("info")
-    log.debug("debug")
-
     # リクエストパラメータを取得
-    message = request.args.get("text")
+    text = request.args.get("text")
 
-    # PDFを作成
-    with BytesIO() as output:
-        # キャンパスの作成
-        p = canvas.Canvas(output)
-
-        # 描画
-        p.drawString(100, 100, message)
-        p.showPage()
-
-        # 書き出し
-        p.save()
-        pdf_out = output.getvalue()
+    # サンプルのPDFファイルを作成する
+    pdf_writer = PdfWriter(text)
+    pdf_file = pdf_writer.write()
 
     # レスポンスの作成
-    response = make_response(pdf_out)
+    response = make_response(pdf_file)
     response.headers['Content-Disposition'] = "attachment; filename=sakulaci.pdf"
     response.mimetype = 'application/pdf'
 

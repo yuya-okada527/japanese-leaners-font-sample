@@ -11,6 +11,13 @@ ENV_FILE = os.path.join(
     ".env"
 )
 
+DEFAULT_FONT_PATH = os.path.join(
+    Path(__file__).resolve().parents[2],
+    "fonts",
+    "ttf",
+    "JapaneseLearners1.ttf"
+)
+
 
 class __Settings:
 
@@ -24,6 +31,7 @@ class __Settings:
         self.s3_bucket_name = os.getenv("S3_BUCKET_NAME")
         self.s3_access_key = os.getenv("S3_USER_ACCESS_KEY")
         self.s3_secret_key = os.getenv("S3_USER_SECRET_KEY")
+        self.fonts_path = os.getenv("FONTS_PATH", DEFAULT_FONT_PATH)
 
 
 settings = __Settings()

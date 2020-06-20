@@ -110,5 +110,7 @@
 # WEBアプリ
 $ python -m web.main
 
+# OTFからTTFへの変換(結構時間かかる)
+$ otf2ttf ../fonts/otf/JapaneseLearners1.otf
 ```
 
