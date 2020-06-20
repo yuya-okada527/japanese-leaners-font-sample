@@ -30,7 +30,7 @@ class PdfWriter:
             doc = canvas.Canvas(output, pagesize=portrait(A4), bottomup=False)
 
             # ドキュメント設定
-            # フォントを指定
+            # フォントを指定 TODO 日本語にうまく対応できていない見たい
             pdfmetrics.registerFont(TTFont("JapaneseLearnersFont", settings.fonts_path))
             doc.setFont("JapaneseLearnersFont", self.font_size)
 
