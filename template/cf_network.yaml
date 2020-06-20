@@ -1,0 +1,79 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Parameters:
+  AppName:
+    Type: String
+    Default: JapaneseCharacterWorkbookDemo
+
+  TargetRegion:
+    Type: String
+    Default: ap-northeast-1
+
+  AvailabilityZone:
+    Type: String
+    Default: ap-northeast-1a
+
+  VpcBlock:
+    Type: String
+    Default:
+      192.168.0.0/16
+
+  SubnetBlock:
+    Type: String
+    Default: 192.168.0.0/24
+
+Resources:
+  AppVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref VpcBlock
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: !Sub ${AppName}-VPC
+
+  Subnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: !Ref AvailabilityZone
+      CidrBlock: !Ref SubnetBlock
+      VpcId: !Ref AppVPC
+      Tags:
+        - Key: Name
+          Value: !Sub ${AppName}-Subnet
+
+  # インターネットゲートウェイ
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+
+  # インターネットゲートウェイとVPCの関連付け
+  VPCGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      InternetGatewayId: !Ref InternetGateway
+      VpcId: !Ref AppVPC
+
+  # ルートテーブル
+  SubnetRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref AppVPC
+      Tags:
+        - Key: Name
+          Value: !Sub ${AppName}-SubnetRouteTable
+
+  # サブネットのルート(サブネットの通信先を定義)
+  WorkerSubnetRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref SubnetRouteTable
+      DestinationCidrBlock: 0.0.0.0/0 # 任意のIPアドレス
+      GatewayId: !Ref InternetGateway # インターネットゲートウェイ
+
+  # サブネット1にルートテーブルを関連付ける
+  SubnetRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref Subnet
+      RouteTableId: !Ref SubnetRouteTable
