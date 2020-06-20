@@ -87,6 +87,7 @@
       - TTFフォントの用意は無理そう
       - OTFからTTFに変換するコマンドラインツールを利用する
         - https://pypi.org/project/otf2ttf/
+        - https://github.com/awesometoolbox/otf2ttf
       - 余裕があれば、Lambdaに変換ツール作って、S3へのアップロードをトリガーにして、変換すバッチを仕込む
     - ファイル生成は簡単だけど、非同期で作ってる気がする(もしかしたら保存に時間がかかってるだけかもだけど)
     - ドキュメント: https://www.reportlab.com/docs/reportlab-userguide.pdf
