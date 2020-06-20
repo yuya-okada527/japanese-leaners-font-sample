@@ -35,7 +35,7 @@ def create():
 
     # レスポンスの作成
     response = make_response(pdf_file)
-    response.headers['Content-Disposition'] = "attachment; filename=sakulaci.pdf"
+    response.headers['Content-Disposition'] = "attachment; filename=sample.pdf"
     response.mimetype = 'application/pdf'
 
     return response

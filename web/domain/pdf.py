@@ -15,16 +15,21 @@ class PdfWriter:
     def __init__(self,
                  text: str,
                  font_name: str = "JapaneseLearnersFont",
-                 font_size: int = 30):
+                 font_size: int = 50):
         self.text = text
         self.font_name = font_name
         self.font_size = font_size
         self.data = [
+            ["｜" for _ in self.text],
+            ["｜" for _ in self.text],
+            ["｜" for _ in self.text],
+            ["｜" for _ in self.text],
             [char for char in self.text],
-            ["　" for _ in self.text],
-            ["　" for _ in self.text],
-            ["　" for _ in self.text],
-            ["　" for _ in self.text]
+            ["｜" for _ in self.text],
+            ["｜" for _ in self.text],
+            ["｜" for _ in self.text],
+            ["｜" for _ in self.text],
+            [char for char in self.text]
         ]
 
     def write(self):
@@ -43,8 +48,8 @@ class PdfWriter:
             table.setStyle(TableStyle([
                 ('FONT', (0, 0), (-1, -1), self.font_name, self.font_size),
             ]))
-            table.wrapOn(doc, 50 * mm, 10 * mm)
-            table.drawOn(doc, 50 * mm, 10 * mm)
+            table.wrapOn(doc, 30 * mm, 30 * mm)
+            table.drawOn(doc, 30 * mm, 30 * mm)
 
             # ドキュメントを描画する
             doc.showPage()
