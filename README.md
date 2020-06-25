@@ -126,3 +126,19 @@ $ docker push {AWSAccount}.dkr.ecr.ap-northeast-1.amazonaws.com/ujiie/jcw-demo-a
 $ otf2ttf ../fonts/otf/JapaneseLearners1.otf
 ```
 
+### サーバー起動手順
+
+```bash
+# サーバーの準備を整える
+$ sh scripts/init.sh
+
+# .envファイルの作成
+$ vi .env
+
+# 一度抜ける
+$ exit
+
+# アプリを起動
+$ sh scripts/start.sh
+
+```
