@@ -2,9 +2,10 @@ import os
 from pathlib import Path
 from io import BytesIO
 from dataclasses import dataclass
+from typing import Tuple
 
 from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import A4, portrait
+from reportlab.lib.pagesizes import A4, portrait, landscape
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import Table, TableStyle
@@ -28,13 +29,21 @@ class Layout:
     font_size: int
     practice_num: int
     sample_num: int
+    pagesize: Tuple[float, float]
 
     @classmethod
-    def make_layout(cls, font_size: FontSize):
+    def make_layout(cls, font_size: FontSize, horizontal: bool):
+
+        if horizontal:
+            pagesize = landscape(A4)
+        else:
+            pagesize = portrait(A4)
+
         return cls(
             font_size=font_size.value["pixel"],
             practice_num=4,
-            sample_num=2
+            sample_num=2,
+            pagesize=pagesize
         )
 
 
@@ -51,7 +60,7 @@ class PdfWriter:
         with BytesIO() as output:
 
             # 白紙のドキュメントを作成
-            doc = canvas.Canvas(output, pagesize=portrait(A4), bottomup=False)
+            doc = canvas.Canvas(output, pagesize=self.layout.pagesize, bottomup=False)
 
             # ドキュメント設定
             # フォントを指定
@@ -77,6 +86,8 @@ class PdfWriter:
         # 練習用の行を作成
         sample_row = [char for char in text]
         practice_rows = [["｜" for _ in text] for _ in range(self.layout.practice_num)]
+
+        # データの作成
         data = []
         for _ in range(self.layout.sample_num):
             data.extend(practice_rows)
@@ -85,6 +96,6 @@ class PdfWriter:
         return data
 
     @classmethod
-    def make_pdf_writer(cls, font_size: FontSize):
-        layout = Layout.make_layout(font_size)
+    def make_pdf_writer(cls, font_size: FontSize, horizontal: bool):
+        layout = Layout.make_layout(font_size, horizontal)
         return cls(layout)

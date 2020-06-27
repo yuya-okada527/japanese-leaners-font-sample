@@ -29,9 +29,10 @@ def create():
     # リクエストパラメータを取得
     text = request.args.get("text")
     font_size = FontSize.name_of(request.args.get("font-size"))
+    horizontal = request.args.get("horizontal", default=False, type=bool)
 
     # サンプルのPDFファイルを作成する
-    pdf_writer = PdfWriter.make_pdf_writer(font_size)
+    pdf_writer = PdfWriter.make_pdf_writer(font_size, horizontal)
     pdf_file = pdf_writer.write(text)
 
     # レスポンスの作成
