@@ -5,25 +5,35 @@ from dataclasses import dataclass
 from typing import Tuple
 
 from reportlab.pdfgen import canvas
-from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4, portrait, landscape
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import Table, TableStyle
 from reportlab.lib.units import mm
 
-# from ..infra.s3 import S3Client
-from ..enums import FontSize
+from ..config import settings
+from ..infra.s3 import S3Client
+from ..enums import FontSize, Env
 
-# FONT_KEY = "fonts/ttf/JapaneseLearners1.ttf"
-# FONT_FILE = S3Client.get_object(FONT_KEY).get()["Body"].read()
-FONT_PATH = os.path.join(
-    Path(__file__).resolve().parents[3],
-    "fonts",
-    "ttf",
-    "JapaneseLearners1.ttf"
-)
+FONT_NAME = "JapaneseLearnersFont"
+FONT_KEY = "fonts/ttf/JapaneseLearners1.ttf"
 COLOR_GRAY = (0.7, 0.7, 0.7)
+
+
+def init_font():
+    if settings.env == Env.LOCAL:
+        return os.path.join(
+            Path(__file__).resolve().parents[3],
+            "fonts",
+            "ttf",
+            "JapaneseLearners1.ttf"
+        )
+
+    return BytesIO(S3Client.get_object(FONT_KEY).get()["Body"].read())
+
+
+# PDF生成の設定を変更
+pdfmetrics.registerFont(TTFont(FONT_NAME, init_font()))
 
 
 @dataclass()
@@ -56,7 +66,7 @@ class Layout:
 @dataclass()
 class PdfWriter:
     layout: Layout
-    font_name: str = "JapaneseLearnersFont"
+    font_name: str = FONT_NAME
 
     def write(self, text):
 
@@ -70,7 +80,6 @@ class PdfWriter:
 
             # ドキュメント設定
             # フォントを指定
-            pdfmetrics.registerFont(TTFont(self.font_name, FONT_PATH))
             doc.setFont(self.font_name, self.layout.font_size)
 
             # テーブルを作成

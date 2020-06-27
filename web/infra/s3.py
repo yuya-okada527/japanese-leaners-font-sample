@@ -29,9 +29,11 @@ class S3Client:
     @lru_cache
     def get_object(cls, key: str):
         assert key is not None, "key must not be None"
-        return cls.bucket.Object(key)
+        bucket = cls.get_bucket()
+        return bucket.Object(key)
 
     @classmethod
     @lru_cache
     def list_objects(cls, prefix: str = ""):
-        return cls.bucket.objects.filter(Prefix=prefix)
+        bucket = cls.get_bucket()
+        return bucket.objects.filter(Prefix=prefix)
