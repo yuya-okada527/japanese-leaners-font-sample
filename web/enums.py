@@ -15,9 +15,9 @@ class Env(Enum):
 
 
 class FontSize(Enum):
-    SMALL  = {"name": "small",  "pixel": 50}
-    MIDDLE = {"name": "middle", "pixel": 60}
-    LARGE  = {"name": "large",  "pixel": 80}
+    SMALL  = {"name": "small",  "pixel": 50, "practice_num": 4, "draw_on": (10, 20)}
+    MIDDLE = {"name": "middle", "pixel": 60, "practice_num": 3, "draw_on": (10, 20)}
+    LARGE  = {"name": "large",  "pixel": 80, "practice_num": 2, "draw_on": (7,  30)}
 
     @classmethod
     def name_of(cls, name):
