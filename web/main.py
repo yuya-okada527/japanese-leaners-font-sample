@@ -1,3 +1,5 @@
+from urllib.parse import quote
+
 from flask import (
     Flask,
     request,
@@ -34,7 +36,10 @@ def create():
 
     # レスポンスの作成
     response = make_response(pdf_file)
-    response.headers['Content-Disposition'] = "attachment; filename=sample.pdf"
+
+    # ファイル名を作成
+    file_name = quote(text + ".pdf")
+    response.headers['Content-Disposition'] = f"attachment; filename={file_name}; filename*=UTF-8''{file_name}"
     response.mimetype = 'application/pdf'
 
     return response
