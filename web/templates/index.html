@@ -29,6 +29,9 @@
           <label class="control-label ">入力欄</label>
           <input class="form-control" type="text" name="text" placeholder="例: リオネルメッシ">
         </div>
+        {% if error %}
+          <div class="alert alert-danger mx-3" role="alert">{{ error }}</div>
+        {% endif %}
         <div class="form-group px-3">
           <div class="row">
             <div class="form-check form-check-inline col-8">
