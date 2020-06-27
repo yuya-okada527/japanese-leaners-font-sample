@@ -32,12 +32,12 @@ def create():
     horizontal = request.args.get("horizontal", default=False, type=bool)
 
     # パラメータのバリデーション
-    if len(text) == 0:
-        return render_template(
-            "index.html",
-            workbooks=get_workbooks(),
-            error="入力欄が未記入です。"
-        )
+    # if len(text) == 0:
+    #     return render_template(
+    #         "index.html",
+    #         workbooks=get_workbooks(),
+    #         error="入力欄が未記入です。"
+    #     )
 
     # サンプルのPDFファイルを作成する
     pdf_writer = PdfWriter.make_pdf_writer(font_size, horizontal)
@@ -71,6 +71,12 @@ def download():
     response.headers['Content-Disposition'] = f"attachment; filename={file_name}; filename*=UTF-8''{file_name}"
     response.mimetype = 'application/pdf'
     return response
+
+
+@app.errorhandler(Exception)
+def internal_server_error(error):
+    log.error(error)
+    return render_template("error_500.html")
 
 
 if __name__ == "__main__":
