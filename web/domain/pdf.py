@@ -55,10 +55,12 @@ class PdfWriter:
             # テーブルを作成
             table = Table(data)
             table.setStyle(TableStyle([
-                ('FONT', (0, 0), (-1, -1), self.font_name, self.layout.font_size),
+                ("FONT",         (0, 0), (-1, -1), self.font_name, self.layout.font_size),
+                ("LEFTPADDING",  (0, 0), (-1, -1), 0),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 0),
             ]))
-            table.wrapOn(doc, 30 * mm, 30 * mm)
-            table.drawOn(doc, 30 * mm, 30 * mm)
+            table.wrapOn(doc, 10 * mm, 20 * mm)
+            table.drawOn(doc, 10 * mm, 20 * mm)
 
             # ドキュメントを描画する
             doc.showPage()
