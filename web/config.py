@@ -27,7 +27,7 @@ class __Settings:
             load_dotenv(path, verbose=True)
 
         # 環境変数をセット
-        self.env = Env.value_of(os.getenv("ENV", "local"))
+        self.env = Env.name_of(os.getenv("ENV", "local"))
         self.s3_bucket_name = os.getenv("S3_BUCKET_NAME")
         self.s3_access_key = os.getenv("S3_USER_ACCESS_KEY")
         self.s3_secret_key = os.getenv("S3_USER_SECRET_KEY")

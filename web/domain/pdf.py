@@ -1,4 +1,5 @@
 from io import BytesIO
+from dataclasses import dataclass
 
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4, portrait
@@ -8,36 +9,31 @@ from reportlab.platypus import Table, TableStyle
 from reportlab.lib.units import mm
 
 from ..infra.s3 import S3Client
-
+from ..enums import FontSize
 
 FONT_KEY = "fonts/ttf/JapaneseLearners1.ttf"
 FONT_FILE = S3Client.get_object(FONT_KEY).get()["Body"].read()
 
 
+@dataclass()
+class Layout:
+    font_size: int
+
+    @classmethod
+    def make_layout(cls, font_size: FontSize):
+        return cls(font_size.value["pixel"])
+
+
+@dataclass()
 class PdfWriter:
+    layout: Layout
+    font_name: str = "JapaneseLearnersFont"
 
-    def __init__(
-            self,
-            text: str,
-            font_name: str = "JapaneseLearnersFont",
-            font_size: int = 50):
-        self.text = text
-        self.font_name = font_name
-        self.font_size = font_size
-        self.data = [
-            ["｜" for _ in self.text],
-            ["｜" for _ in self.text],
-            ["｜" for _ in self.text],
-            ["｜" for _ in self.text],
-            [char for char in self.text],
-            ["｜" for _ in self.text],
-            ["｜" for _ in self.text],
-            ["｜" for _ in self.text],
-            ["｜" for _ in self.text],
-            [char for char in self.text]
-        ]
+    def write(self, text):
 
-    def write(self):
+        # テーブルに表示するデータを作成
+        data = PdfWriter.make_data(text)
+
         with BytesIO() as output:
 
             # 白紙のドキュメントを作成
@@ -46,12 +42,12 @@ class PdfWriter:
             # ドキュメント設定
             # フォントを指定
             pdfmetrics.registerFont(TTFont(self.font_name, BytesIO(FONT_FILE)))
-            doc.setFont(self.font_name, self.font_size)
+            doc.setFont(self.font_name, self.layout.font_size)
 
             # テーブルを作成
-            table = Table(self.data)
+            table = Table(data)
             table.setStyle(TableStyle([
-                ('FONT', (0, 0), (-1, -1), self.font_name, self.font_size),
+                ('FONT', (0, 0), (-1, -1), self.font_name, self.layout.font_size),
             ]))
             table.wrapOn(doc, 30 * mm, 30 * mm)
             table.drawOn(doc, 30 * mm, 30 * mm)
@@ -61,3 +57,22 @@ class PdfWriter:
             doc.save()
             return output.getvalue()
 
+    @classmethod
+    def make_data(cls, text: str):
+        return [
+            ["｜" for _ in text],
+            ["｜" for _ in text],
+            ["｜" for _ in text],
+            ["｜" for _ in text],
+            [char for char in text],
+            ["｜" for _ in text],
+            ["｜" for _ in text],
+            ["｜" for _ in text],
+            ["｜" for _ in text],
+            [char for char in text]
+        ]
+
+    @classmethod
+    def make_pdf_writer(cls, font_size: FontSize):
+        layout = Layout.make_layout(font_size)
+        return cls(layout)

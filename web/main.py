@@ -5,6 +5,7 @@ from flask import (
     make_response
 )
 
+from .enums import FontSize
 from .domain.service import get_workbooks, get_workbook
 from .domain.pdf import PdfWriter
 from .logger import create_logger
@@ -25,10 +26,11 @@ def create():
 
     # リクエストパラメータを取得
     text = request.args.get("text")
+    font_size = FontSize.name_of(request.args.get("font-size"))
 
     # サンプルのPDFファイルを作成する
-    pdf_writer = PdfWriter(text)
-    pdf_file = pdf_writer.write()
+    pdf_writer = PdfWriter.make_pdf_writer(font_size)
+    pdf_file = pdf_writer.write(text)
 
     # レスポンスの作成
     response = make_response(pdf_file)
@@ -55,4 +57,5 @@ def download():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0")
+    # app.run(host="0.0.0.0")
+    app.run(debug=True)
