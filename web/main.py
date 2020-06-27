@@ -37,7 +37,7 @@ def create():
             "index.html",
             workbooks=get_workbooks(),
             error="入力欄が未記入です。"
-        )
+        ), 421
 
     # サンプルのPDFファイルを作成する
     pdf_writer = PdfWriter.make_pdf_writer(font_size, horizontal)
