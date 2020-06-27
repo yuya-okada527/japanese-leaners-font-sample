@@ -1,107 +1,77 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <title>Japanese Character Workbook</title>
-  <!-- Bootstrap CDN -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" >
-</head>
-<body>
-<div class="container">
+{% extends "layout.html" %}
+{% block content %}
+<!-- 説明 -->
+<h5 class="text-center my-4">
+  JapaneseLearnersFontを使った日本語練習帳を出力するサイトのデモです。
+</h5>
 
-  <!-- ナビゲーション -->
-  <nav class="navbar navbar-dark bg-dark p-4 my-4">
-    <a class="navbar-brand " href="{{ url_for('index') }}"><span class="h2">Japanese Character Workbook</span></a>
-  </nav>
-
-  <!-- 説明 -->
-  <h5 class="text-center my-4">
-    JapaneseLearnersFontを使った日本語練習帳を出力するサイトのデモです。
-  </h5>
-
-  <!-- PDF作成フォーム -->
-  <div class="card bg-light border-dark">
-    <div class="card-body">
-      <h4 class="card-title p-3">PDF作成</h4>
-      <p class="card-subtitle text-muted mb-3 px-3">下記に入力した文字で練習帳を作成します。</p>
-      <form method="get" action="{{ url_for('create') }}">
-        <div class="form-group px-3">
-          <label class="control-label ">入力欄</label>
-          <input class="form-control" type="text" name="text" placeholder="例: リオネルメッシ">
-        </div>
-        {% if error %}
-          <div class="alert alert-danger mx-3" role="alert">{{ error }}</div>
-        {% endif %}
-        <div class="form-group px-3">
-          <div class="row">
-            <div class="form-check form-check-inline col-8">
-              <label class="control-label col-3 my-1">フォントサイズ:</label>
-              <div class="col-3">
-                <input class="form-check-input" type="radio" name="font-size" id="small-size" value="small" checked>
-                <label class="form-check-label" for="small-size">
-                  small(50px)
-                </label>
-              </div>
-              <div class="col-3">
-                <input class="form-check-input" type="radio" name="font-size" id="middle-size" value="middle">
-                <label class="form-check-label" for="middle-size">
-                  middle(60px)
-                </label>
-              </div>
-              <div class="col-3">
-                <input class="form-check-input" type="radio" name="font-size" id="large-size" value="large">
-                <label class="form-check-label" for="large-size">
-                  large(80px)
-                </label>
-              </div>
+<!-- PDF作成フォーム -->
+<div class="card bg-light border-dark">
+  <div class="card-body">
+    <h4 class="card-title p-3">PDF作成</h4>
+    <p class="card-subtitle text-muted mb-3 px-3">下記に入力した文字で練習帳を作成します。</p>
+    <form method="get" action="{{ url_for('create') }}">
+      <div class="form-group px-3">
+        <label class="control-label ">入力欄</label>
+        <input class="form-control" type="text" name="text" placeholder="例: リオネルメッシ">
+      </div>
+      {% if error %}
+      <div class="alert alert-danger mx-3" role="alert">{{ error }}</div>
+      {% endif %}
+      <div class="form-group px-3">
+        <div class="row">
+          <div class="form-check form-check-inline col-8">
+            <label class="control-label col-3 my-1">フォントサイズ:</label>
+            <div class="col-3">
+              <input class="form-check-input" type="radio" name="font-size" id="small-size" value="small" checked>
+              <label class="form-check-label" for="small-size">
+                small(50px)
+              </label>
             </div>
-          </div>
-          <div class="row">
-            <div class="form-check form-check-inline col-6">
-              <label class="control-label col-4 my-1">PDFの向き:</label>
-              <div class="col-3">
-                <input class="form-check-input" type="checkbox" name="horizontal" id="horizontal" value="true">
-                <label class="form-check-label" for="horizontal">
-                  横書き
-                </label>
-              </div>
+            <div class="col-3">
+              <input class="form-check-input" type="radio" name="font-size" id="middle-size" value="middle">
+              <label class="form-check-label" for="middle-size">
+                middle(60px)
+              </label>
+            </div>
+            <div class="col-3">
+              <input class="form-check-input" type="radio" name="font-size" id="large-size" value="large">
+              <label class="form-check-label" for="large-size">
+                large(80px)
+              </label>
             </div>
           </div>
         </div>
-        <div class="form-row text-center">
-          <div class="col-12">
-            <button class="btn btn-primary" type="submit">ダウンロード</button>
+        <div class="row">
+          <div class="form-check form-check-inline col-6">
+            <label class="control-label col-4 my-1">PDFの向き:</label>
+            <div class="col-3">
+              <input class="form-check-input" type="checkbox" name="horizontal" id="horizontal" value="true">
+              <label class="form-check-label" for="horizontal">
+                横書き
+              </label>
+            </div>
           </div>
         </div>
-      </form>
-    </div>
+      </div>
+      <div class="form-row text-center">
+        <div class="col-12">
+          <button class="btn btn-primary" type="submit">ダウンロード</button>
+        </div>
+      </div>
+    </form>
   </div>
-
-  <!-- 教材ダウンロード -->
-  <div class="card bg-light border-dark mt-4 mb-4">
-    <div class="card-body">
-      <h4 class="card-title p-3">教材ダウンロード</h4>
-      <ul>
-        {% for workbook in workbooks %}
-          <li><a href="{{ url_for('download') + '?key=' + workbook.key }}">{{ workbook.name }}</a></li>
-        {% endfor %}
-      </ul>
-    </div>
-  </div>
-
-  <!-- フッター -->
-  <footer class="footer border-top">
-    <div class="container">
-      <p class="text-muted text-left mb-0 mt-1">Japanese Character Workbook</p>
-      <p class="text-muted text-left mb-0">open: 2020/06/19</p>
-      <p class="text-muted text-left mb-0">mail: hoge-fuga@email.com</p>
-    </div>
-  </footer>
-
 </div>
-<!-- jQuery for Bootstrap -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-</body>
-</html>
+
+<!-- 教材ダウンロード -->
+<div class="card bg-light border-dark mt-4 mb-4">
+  <div class="card-body">
+    <h4 class="card-title p-3">教材ダウンロード</h4>
+    <ul>
+      {% for workbook in workbooks %}
+      <li><a href="{{ url_for('download') + '?key=' + workbook.key }}">{{ workbook.name }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}
