@@ -26,10 +26,16 @@ FONT_PATH = os.path.join(
 @dataclass()
 class Layout:
     font_size: int
+    practice_num: int
+    sample_num: int
 
     @classmethod
     def make_layout(cls, font_size: FontSize):
-        return cls(font_size.value["pixel"])
+        return cls(
+            font_size=font_size.value["pixel"],
+            practice_num=4,
+            sample_num=2
+        )
 
 
 @dataclass()
@@ -40,7 +46,7 @@ class PdfWriter:
     def write(self, text):
 
         # テーブルに表示するデータを作成
-        data = PdfWriter.make_data(text)
+        data = self.make_data(text)
 
         with BytesIO() as output:
 
@@ -67,20 +73,16 @@ class PdfWriter:
             doc.save()
             return output.getvalue()
 
-    @classmethod
-    def make_data(cls, text: str):
-        return [
-            ["｜" for _ in text],
-            ["｜" for _ in text],
-            ["｜" for _ in text],
-            ["｜" for _ in text],
-            [char for char in text],
-            ["｜" for _ in text],
-            ["｜" for _ in text],
-            ["｜" for _ in text],
-            ["｜" for _ in text],
-            [char for char in text]
-        ]
+    def make_data(self, text: str):
+        # 練習用の行を作成
+        sample_row = [char for char in text]
+        practice_rows = [["｜" for _ in text] for _ in range(self.layout.practice_num)]
+        data = []
+        for _ in range(self.layout.sample_num):
+            data.extend(practice_rows)
+            data.append(sample_row)
+
+        return data
 
     @classmethod
     def make_pdf_writer(cls, font_size: FontSize):
