@@ -65,7 +65,10 @@ def download():
 
     # レスポンスを作成する
     response = make_response(workbook)
-    response.headers['Content-Disposition'] = "attachment; filename=" + "workbook.pdf"  # TODO ファイル名 オリジナルのキー名を使うと文字コード系のエラーがでる
+
+    # ファイル名を作成
+    file_name = quote(key.split("/")[-1])
+    response.headers['Content-Disposition'] = f"attachment; filename={file_name}; filename*=UTF-8''{file_name}"
     response.mimetype = 'application/pdf'
     return response
 
