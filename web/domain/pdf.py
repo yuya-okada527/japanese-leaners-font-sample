@@ -1,3 +1,5 @@
+import os
+from pathlib import Path
 from io import BytesIO
 from dataclasses import dataclass
 
@@ -8,11 +10,17 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import Table, TableStyle
 from reportlab.lib.units import mm
 
-from ..infra.s3 import S3Client
+# from ..infra.s3 import S3Client
 from ..enums import FontSize
 
-FONT_KEY = "fonts/ttf/JapaneseLearners1.ttf"
-FONT_FILE = S3Client.get_object(FONT_KEY).get()["Body"].read()
+# FONT_KEY = "fonts/ttf/JapaneseLearners1.ttf"
+# FONT_FILE = S3Client.get_object(FONT_KEY).get()["Body"].read()
+FONT_PATH = os.path.join(
+    Path(__file__).resolve().parents[3],
+    "fonts",
+    "ttf",
+    "JapaneseLearners1.ttf"
+)
 
 
 @dataclass()
@@ -41,7 +49,7 @@ class PdfWriter:
 
             # ドキュメント設定
             # フォントを指定
-            pdfmetrics.registerFont(TTFont(self.font_name, BytesIO(FONT_FILE)))
+            pdfmetrics.registerFont(TTFont(self.font_name, FONT_PATH))
             doc.setFont(self.font_name, self.layout.font_size)
 
             # テーブルを作成
