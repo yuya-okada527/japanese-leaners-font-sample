@@ -18,6 +18,7 @@ from ..enums import FontSize, Env
 FONT_NAME = "JapaneseLearnersFont"
 FONT_KEY = "fonts/ttf/JapaneseLearners1.ttf"
 COLOR_GRAY = (0.7, 0.7, 0.7)
+SPACES = " 　"
 
 
 def init_font():
@@ -116,8 +117,9 @@ class PdfWriter:
 
     def make_data(self, text: str):
         # 練習用の行を作成
-        sample_row = [[char for char in text] for _ in range(2)]
-        practice_rows = [["｜" for _ in text] for _ in range(self.layout.practice_num)]
+        sample_row    = [[char for char in text] for _ in range(2)]
+        practice_rows = [[PdfWriter.practice_char(char) for char in text]
+                         for _ in range(self.layout.practice_num)]
 
         # データの作成
         data = []
@@ -126,6 +128,12 @@ class PdfWriter:
             data.extend(sample_row)
 
         return data
+
+    @staticmethod
+    def practice_char(char):
+        if char in SPACES:
+            return " "
+        return "｜"
 
     @classmethod
     def make_pdf_writer(cls, font_size: FontSize, horizontal: bool):
