@@ -8,8 +8,19 @@
 <!-- PDF作成フォーム -->
 <div class="card bg-light border-dark">
   <div class="card-body">
-    <h4 class="card-title p-3">PDF作成</h4>
-    <p class="card-subtitle text-muted mb-3 px-3">下記に入力した文字でA4サイズの練習帳を作成します。</p>
+    <div class="row">
+      <div class="col-6">
+        <h4 class="card-title p-3">PDF作成</h4>
+        <p class="card-subtitle text-muted mb-3 px-3">下記に入力した文字でA4サイズの練習帳を作成します。</p>
+      </div>
+      <div class="col-4">
+        <img src="https://japanse-character-workbook-public.s3-ap-northeast-1.amazonaws.com/images/Yoz.png"
+             width="100"
+             height="120"
+             class="mx-auto d-block"
+        >
+      </div>
+    </div>
     <form method="get" action="{{ url_for('create') }}">
       <div class="form-group px-3">
         <label class="control-label ">入力欄</label>
@@ -67,11 +78,22 @@
 <div class="card bg-light border-dark mt-4 mb-4">
   <div class="card-body">
     <h4 class="card-title p-3">教材ダウンロード</h4>
-    <ul>
-      {% for workbook in workbooks %}
-      <li><a href="{{ url_for('download') + '?key=' + workbook.key }}">{{ workbook.name }}</a></li>
-      {% endfor %}
-    </ul>
+    <div class="row">
+      <div class="col-6">
+        <ul>
+          {% for workbook in workbooks %}
+          <li><a href="{{ url_for('download') + '?key=' + workbook.key }}">{{ workbook.name }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="col-4">
+        <img src="https://japanse-character-workbook-public.s3-ap-northeast-1.amazonaws.com/images/Toza.png"
+             width="100"
+             height="120"
+             class="mx-auto d-block"
+        >
+      </div>
+    </div>
   </div>
 </div>
 <script>
