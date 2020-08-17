@@ -7,7 +7,7 @@ sudo yum update -y
 sudo yum install -y git
 
 # リポジトリのクローン
-git clone https://github.com/yuya-okada527/japanese-leaners-font-sample.git
+# git clone https://github.com/yuya-okada527/japanese-leaners-font-sample.git
 cd japanese-leaners-font-sample
 
 # dockerの準備
