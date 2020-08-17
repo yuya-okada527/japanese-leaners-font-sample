@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# 起動ずみのコンテナを停止
+docker stop jcw-demo-app
+
 # Dockerビルド
 docker build -t jcw-demo:0.0.1 .
 
