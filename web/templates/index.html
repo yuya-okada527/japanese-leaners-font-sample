@@ -9,7 +9,7 @@
 <div class="card bg-light border-dark">
   <div class="card-body">
     <h4 class="card-title p-3">PDF作成</h4>
-    <p class="card-subtitle text-muted mb-3 px-3">下記に入力した文字で練習帳を作成します。</p>
+    <p class="card-subtitle text-muted mb-3 px-3">下記に入力した文字でA4サイズの練習帳を作成します。</p>
     <form method="get" action="{{ url_for('create') }}">
       <div class="form-group px-3">
         <label class="control-label ">入力欄</label>
@@ -25,19 +25,19 @@
             <div class="col-3">
               <input class="form-check-input" type="radio" name="font-size" id="small-size" value="small" checked>
               <label class="form-check-label" for="small-size">
-                small(50px)
+                small (タテ10文字まで ヨコ15文字まで)
               </label>
             </div>
             <div class="col-3">
               <input class="form-check-input" type="radio" name="font-size" id="middle-size" value="middle">
               <label class="form-check-label" for="middle-size">
-                middle(60px)
+                middle (タテ8文字まで ヨコ13文字まで)
               </label>
             </div>
             <div class="col-3">
               <input class="form-check-input" type="radio" name="font-size" id="large-size" value="large">
               <label class="form-check-label" for="large-size">
-                large(80px)
+                large (タテ6文字まで ヨコ10文字まで)
               </label>
             </div>
           </div>
@@ -48,7 +48,7 @@
             <div class="col-3">
               <input class="form-check-input" type="checkbox" name="horizontal" id="horizontal" value="true">
               <label class="form-check-label" for="horizontal">
-                横書き
+                ヨコ
               </label>
             </div>
           </div>
