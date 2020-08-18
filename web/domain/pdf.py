@@ -57,7 +57,7 @@ class Layout:
 
         return cls(
             font_size=font_size.value["pixel"],
-            practice_num=font_size.value["practice_num"],
+            practice_num=font_size.value["practice_num"] if not horizontal else font_size.value["horizontal_practice_num"],
             sample_num=sample_num,
             pagesize=pagesize,
             draw_on=font_size.value["draw_on"]

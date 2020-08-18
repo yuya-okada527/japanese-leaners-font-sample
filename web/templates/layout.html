@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Japanese Character Workbook</title>
   <!-- ファビコン -->
-  <link rel="shortcut icon" href="https://japanse-character-workbook-public.s3-ap-northeast-1.amazonaws.com/images/logo1.png">
+  <link rel="shortcut icon" href="https://japanse-character-workbook-public.s3-ap-northeast-1.amazonaws.com/images/main_logo.png">
   <!-- Bootstrap CDN -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" >
 </head>
@@ -14,11 +14,12 @@
   <!-- ナビゲーション -->
   <nav class="navbar navbar-dark bg-dark p-4 my-4">
     <a class="navbar-brand " href="{{ url_for('index') }}">
-      <img src="https://japanse-character-workbook-public.s3-ap-northeast-1.amazonaws.com/images/logo1.png"
-           width="60"
-           height="60"
+      <img src="https://japanse-character-workbook-public.s3-ap-northeast-1.amazonaws.com/images/main_logo.png"
+           width="55"
+           height="55"
+           class="mr-3"
       >
-      <span class="h2">Japanese Character Workbook</span>
+      <span class="h2 align-middle">Japanese Character Worksheet</span>
     </a>
   </nav>
 
@@ -28,7 +29,7 @@
 <!-- フッター -->
   <footer class="footer border-top">
     <div class="container">
-      <p class="text-muted text-left mb-0 mt-1">Japanese Character Workbook</p>
+      <p class="text-muted text-left mb-0 mt-1">Japanese Character Worksheet</p>
       <p class="text-muted text-left mb-0">open: 2020/06/19</p>
     </div>
   </footer>
