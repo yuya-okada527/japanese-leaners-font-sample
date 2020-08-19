@@ -1,4 +1,4 @@
 FROM fluent/fluentd
 RUN gem install fluent-plugin-s3
 
-COPY fluentd.conf /fluentd/etc
+COPY fluentd.conf /fluentd/etc/fluentd.conf
