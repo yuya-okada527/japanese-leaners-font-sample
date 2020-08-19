@@ -73,10 +73,16 @@ def download():
     return response
 
 
+@app.route("/health")
+def ping():
+    raise Exception()
+    return {"health": "OK"}, 200
+
+
 @app.errorhandler(Exception)
 def internal_server_error(error):
     log.error(error)
-    return render_template("error_500.html")
+    return render_template("error_500.html"), 500
 
 
 if __name__ == "__main__":
