@@ -22,6 +22,7 @@ docker build -t jcw-demo:0.0.1 .
 # アプリ起動
 docker run --name jcw-demo-log --rm -d -p 8888:8888  \
 --env-file logs/.env \
+-v `pwd`/logs:/fluentd/etc \
 jcw-demo-log:0.0.1
 
 docker run --name jcw-demo-app --rm -d -p 80:5000 \
