@@ -75,7 +75,6 @@ def download():
 
 @app.route("/health")
 def ping():
-    raise Exception()
     return {"health": "OK"}, 200
 
 
