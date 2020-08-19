@@ -33,10 +33,20 @@ def create():
 
     # パラメータのバリデーション
     if len(text) == 0:
+        log.warn("Validation Error: text field is empty.")
         return render_template(
             "index.html",
             workbooks=get_workbooks(),
             error="入力欄が未記入です。"
+        ), 421
+
+    # 大きなサイズのリクエストが来ると負担になるので、制限する
+    if len(text) > 20:
+        log.warn("Validation Error: text size >= 20 size=" + str(len(text)))
+        return render_template(
+            "index.html",
+            workbooks=get_workbooks(),
+            error="文字数は20文字までとなっています。"
         ), 421
 
     # サンプルのPDFファイルを作成する
