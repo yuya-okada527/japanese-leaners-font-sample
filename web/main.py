@@ -12,6 +12,8 @@ from .domain.service import get_workbooks, get_workbook
 from .domain.pdf import PdfWriter
 from .logger import create_logger
 
+MAX_TEXT_SIZE = 15
+
 
 app = Flask(__name__)
 
@@ -33,7 +35,7 @@ def create():
 
     # パラメータのバリデーション
     if len(text) == 0:
-        log.warn("Validation Error: text field is empty.")
+        log.info("Validation Error: text field is empty.")
         return render_template(
             "index.html",
             workbooks=get_workbooks(),
@@ -41,12 +43,12 @@ def create():
         ), 421
 
     # 大きなサイズのリクエストが来ると負担になるので、制限する
-    if len(text) > 20:
-        log.warn("Validation Error: text size >= 20 size=" + str(len(text)))
+    if len(text) > MAX_TEXT_SIZE:
+        log.info(f"Validation Error: text size > {MAX_TEXT_SIZE} size=" + str(len(text)))
         return render_template(
             "index.html",
             workbooks=get_workbooks(),
-            error="文字数は20文字までとなっています。"
+            error=f"文字数は{MAX_TEXT_SIZE}文字までとなっています。"
         ), 421
 
     # サンプルのPDFファイルを作成する
