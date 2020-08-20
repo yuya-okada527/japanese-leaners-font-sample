@@ -30,6 +30,15 @@ def create():
 
     # リクエストパラメータを取得
     text = request.args.get("text")
+    # パラメータのバリデーション
+    if text is None or len(text) == 0:
+        log.info("Validation Error: text field is empty.")
+        return render_template(
+            "index.html",
+            workbooks=get_workbooks(),
+            error="入力欄が未記入です。"
+        ), 421
+
     try:
         font_size = FontSize.name_of(request.args.get("font-size"))
     except ValueError:
@@ -39,15 +48,6 @@ def create():
             error=f"フォントサイズの指定がありません。"
         ), 421
     horizontal = request.args.get("horizontal", default=False, type=bool)
-
-    # パラメータのバリデーション
-    if len(text) == 0:
-        log.info("Validation Error: text field is empty.")
-        return render_template(
-            "index.html",
-            workbooks=get_workbooks(),
-            error="入力欄が未記入です。"
-        ), 421
 
     # 大きなサイズのリクエストが来ると負担になるので、制限する
     if len(text) > MAX_TEXT_SIZE:
