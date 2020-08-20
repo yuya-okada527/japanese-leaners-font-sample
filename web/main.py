@@ -30,7 +30,14 @@ def create():
 
     # リクエストパラメータを取得
     text = request.args.get("text")
-    font_size = FontSize.name_of(request.args.get("font-size"))
+    try:
+        font_size = FontSize.name_of(request.args.get("font-size"))
+    except ValueError:
+        return render_template(
+            "index.html",
+            workbooks=get_workbooks(),
+            error=f"フォントサイズの指定がありません。"
+        ), 421
     horizontal = request.args.get("horizontal", default=False, type=bool)
 
     # パラメータのバリデーション
@@ -73,7 +80,13 @@ def download():
     key = request.args.get("key")
 
     # S3から教材を取得
-    workbook = get_workbook(key)
+    try:
+        workbook = get_workbook(key)
+    except Exception:
+        return render_template(
+            "index.html",
+            workbooks=get_workbooks()
+        ), 421
 
     # レスポンスを作成する
     response = make_response(workbook)

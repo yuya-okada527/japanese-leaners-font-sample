@@ -46,6 +46,7 @@ def main():
         if m:
             logs.append(json.loads(m.group(1))["log"])
 
+
     for log in logs:
         print(log)
 
