@@ -4,6 +4,8 @@ import json
 from pathlib import Path
 import gzip
 from io import BytesIO
+from dataclasses import dataclass
+from typing import Dict
 
 from dotenv import load_dotenv
 from boto3.session import Session
@@ -14,6 +16,16 @@ ENV_FILE = os.path.join(
 )
 
 LOG_PREFIX = "logs/"
+
+
+@dataclass()
+class AccessLog:
+    date_time: str
+    ip_address: str
+    method: str
+    route: str
+    queries: Dict[str, str]
+    status_code: int
 
 
 def decompress(file_obj):
@@ -40,15 +52,22 @@ def main():
         log_texts.extend(decompress(log_text.get()["Body"].read()).split("\n"))
 
     # ログデータのパース
-    logs = []
+    logs = {}
     for log_str in log_texts:
-        m = re.match(r"^.*docker\.jcw-demo-app\t(.*)$", log_str)
+        m = re.match(r"^(.*)\tdocker\.jcw-demo-app\t(.*)$", log_str)
         if m:
-            logs.append(json.loads(m.group(1))["log"])
+            logs[m.group(1)] = json.loads(m.group(2))["log"]
 
-
-    for log in logs:
-        print(log)
+    # ログの解析
+    access_logs = []
+    for date_time, message in logs.items():
+        # TODO ANSI Color Code Remove
+        message = re.sub(r"\\x1b\[", "", message)
+        m = re.match(r"^.+ - - \" ", message)
+        if m:
+            access_logs.append(AccessLog(
+                date_time=date_time
+            ))
 
 
 if __name__ == "__main__":

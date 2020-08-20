@@ -32,7 +32,7 @@ def create():
     text = request.args.get("text")
     # パラメータのバリデーション
     if text is None or len(text) == 0:
-        log.info("Validation Error: text field is empty.")
+        # log.info("Validation Error: text field is empty.")
         return render_template(
             "index.html",
             workbooks=get_workbooks(),
@@ -51,7 +51,7 @@ def create():
 
     # 大きなサイズのリクエストが来ると負担になるので、制限する
     if len(text) > MAX_TEXT_SIZE:
-        log.info(f"Validation Error: text size > {MAX_TEXT_SIZE} size=" + str(len(text)))
+        # log.info(f"Validation Error: text size > {MAX_TEXT_SIZE} size=" + str(len(text)))
         return render_template(
             "index.html",
             workbooks=get_workbooks(),
