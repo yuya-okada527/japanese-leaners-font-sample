@@ -5,7 +5,7 @@ from pathlib import Path
 import gzip
 from io import BytesIO
 from dataclasses import dataclass
-from typing import Dict
+from typing import Dict, Tuple
 
 from dotenv import load_dotenv
 from boto3.session import Session
@@ -16,6 +16,7 @@ ENV_FILE = os.path.join(
 )
 
 LOG_PREFIX = "logs/"
+LOG_PATTERN = r"^(.+) - - .+\".*(GET|POST) (/.*) HTTP.+\" ([0-9]+) -.*$"
 
 
 @dataclass()
@@ -34,6 +35,28 @@ def decompress(file_obj):
             return f.read()
         except UnicodeDecodeError as e:
             return ""
+
+
+def parse_request(req_str: str) -> Tuple[str, Dict[str, str]]:
+    request = req_str.split("?")
+    if len(request) == 1:
+        return request[0], {}
+
+    route = request[0]
+    query_str = request[1]
+
+    queries = {}
+    for query in query_str.split("&"):
+        key, value = split_query(query)
+        queries[key] = value
+
+    return route, queries
+
+
+def split_query(query):
+    if len(query.split("=")) == 2:
+        return query.split("=")
+    return query, ""
 
 
 def main():
@@ -61,13 +84,22 @@ def main():
     # ログの解析
     access_logs = []
     for date_time, message in logs.items():
+        # print(message)
         # TODO ANSI Color Code Remove
-        message = re.sub(r"\\x1b\[", "", message)
-        m = re.match(r"^.+ - - \" ", message)
+        m = re.match(LOG_PATTERN, message)
         if m:
-            access_logs.append(AccessLog(
-                date_time=date_time
-            ))
+            route, queries = parse_request(m.group(3))
+            access_log = AccessLog(
+                date_time=date_time,
+                ip_address=m.group(1),
+                method=m.group(2),
+                route=route,
+                queries=queries,
+                status_code=m.group(4)
+            )
+            print(access_log)
+
+            access_logs.append(access_log)
 
 
 if __name__ == "__main__":
