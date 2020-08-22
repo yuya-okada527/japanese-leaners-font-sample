@@ -4,6 +4,7 @@ from enum import Enum
 class Env(Enum):
     LOCAL = "local"
     DEV   = "dev"
+    STG   = "stg"
     PROD  = "prod"
 
     @classmethod

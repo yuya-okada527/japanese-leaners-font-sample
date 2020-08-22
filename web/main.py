@@ -11,6 +11,7 @@ from .enums import FontSize
 from .domain.service import get_workbooks, get_workbook
 from .domain.pdf import PdfWriter
 from .logger import create_logger
+from .config import settings
 
 MAX_TEXT_SIZE = 15
 
@@ -22,7 +23,11 @@ log = create_logger(__file__)
 
 @app.route("/")
 def index():
-    return render_template("index.html", workbooks=get_workbooks())
+    return render_template(
+        "index.html",
+        workbooks=get_workbooks(),
+        env=settings.env.value
+    )
 
 
 @app.route("/create")
@@ -36,7 +41,8 @@ def create():
         return render_template(
             "index.html",
             workbooks=get_workbooks(),
-            error="入力欄が未記入です。"
+            error="入力欄が未記入です。",
+            env = settings.env.value
         ), 421
 
     try:
@@ -45,7 +51,9 @@ def create():
         return render_template(
             "index.html",
             workbooks=get_workbooks(),
-            error=f"フォントサイズの指定がありません。"
+            error=f"フォントサイズの指定がありません。",
+            env=settings.env.value
+
         ), 421
     horizontal = request.args.get("horizontal", default=False, type=bool)
 
@@ -55,7 +63,8 @@ def create():
         return render_template(
             "index.html",
             workbooks=get_workbooks(),
-            error=f"文字数は{MAX_TEXT_SIZE}文字までとなっています。"
+            error=f"文字数は{MAX_TEXT_SIZE}文字までとなっています。",
+            env=settings.env.value
         ), 421
 
     # サンプルのPDFファイルを作成する
@@ -85,7 +94,8 @@ def download():
     except Exception:
         return render_template(
             "index.html",
-            workbooks=get_workbooks()
+            workbooks=get_workbooks(),
+            env = settings.env.value
         ), 421
 
     # レスポンスを作成する
