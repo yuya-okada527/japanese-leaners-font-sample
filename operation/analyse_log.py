@@ -12,6 +12,11 @@ from collections import defaultdict
 DATETIME_FMT = "%Y-%m-%dT%H:%M:%SZ"
 DATE_KEY_FMT = "%Y/%m/%d"
 
+ANALYSIS_TEXT = os.path.join(
+    Path(__file__).resolve().parents[0],
+    "analysis",
+    "text.txt"
+)
 
 class AccessRoute(Enum):
     DEFAULT = (
@@ -117,12 +122,13 @@ def analyse_create_route():
     for log in access_logs:
         texts.add(log.queries.get("text", None))
         sizes[log.queries.get("font-size", None)] += 1
-        horizontals += bool(log.queries.get("horizontal", "0"))
+        horizontals += bool(log.queries.get("horizontal", None))
 
     # 集計結果を出力
     print(f"/create リクエスト数: {len(access_logs)}")
-    for text in texts:
-        print(f"{text}")
+    with open(ANALYSIS_TEXT, mode="a", encoding="utf-8") as wf:
+        for text in texts:
+            wf.write(str(text) + "\n")
     for size, count in sizes.items():
         print(f"{size} = {count}")
     print(f"横: {horizontals}, 縦: {len(access_logs) - horizontals}")
