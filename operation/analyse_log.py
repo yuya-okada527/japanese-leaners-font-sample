@@ -107,9 +107,42 @@ def analyse_default_route():
 def analyse_create_route():
     print("Start analysing create route /create")
 
+    # アクセスログを取得
+    access_logs = download_logs(AccessRoute.CREATE.log_path)
+
+    # クエリごとにログを集計
+    texts = set()
+    sizes = defaultdict(int)
+    horizontals = 0
+    for log in access_logs:
+        texts.add(log.queries.get("text", None))
+        sizes[log.queries.get("font-size", None)] += 1
+        horizontals += bool(log.queries.get("horizontal", "0"))
+
+    # 集計結果を出力
+    print(f"/create リクエスト数: {len(access_logs)}")
+    for text in texts:
+        print(f"{text}")
+    for size, count in sizes.items():
+        print(f"{size} = {count}")
+    print(f"横: {horizontals}, 縦: {len(access_logs) - horizontals}")
+
 
 def analyse_download_route():
     print("Start analysing download route /download")
+
+    # アクセスログを取得
+    access_logs = download_logs(AccessRoute.DOWNLOAD.log_path)
+
+    # ダウンロードファイルごとに数を集計
+    files =defaultdict(int)
+    for log in access_logs:
+        files[log.queries.get("key")] += 1
+
+    # 集計結果を出力
+    print(f"/download リクエスト数: {len(access_logs)}")
+    for file, count in files.items():
+        print(f"file={file} is downloaded {count} times")
 
 
 def analyse_all_route():
