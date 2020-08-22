@@ -7,12 +7,12 @@ if [ ! -e .env ]; then
 fi
 
 # 起動ずみのコンテナを停止
-docker stop jcw-demo-app
+docker stop jcw-demo-app-stg
 
 # Dockerビルド
-docker build -t jcw-demo-stg:0.0.1 .
+docker build -t jcw-demo:0.0.1 .
 
 # アプリ起動
-docker run --name jcw-demo-app --rm -d -p 80:5000 \
+docker run --name jcw-demo-app-stg --rm -d -p 80:5000 \
 --env-file .env \
-jcw-demo-stg:0.0.1
+jcw-demo:0.0.1
