@@ -136,3 +136,6 @@ dmypy.json
 
 # フォント
 fonts/
+
+# アクセスログ
+operation/logs/
