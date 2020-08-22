@@ -13,6 +13,6 @@ docker stop jcw-demo-app-stg
 docker build -t jcw-demo:0.0.1 .
 
 # アプリ起動
-docker run --name jcw-demo-app-stg --rm -d -p 80:5000 \
+docker run --name jcw-demo-app-stg --rm -d -p 81:5000 \
 --env-file .env \
 jcw-demo:0.0.1
