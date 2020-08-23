@@ -68,7 +68,7 @@ def create():
         ), 421
 
     # サンプルのPDFファイルを作成する
-    if not request.args.get("layout_specified"):
+    if request.args.get("layout_specified") != "on":
         layout = Layout.optimize_layout(text)
         pdf_writer = PdfWriter.from_layout(layout)
     else:
