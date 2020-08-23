@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Access Analysis Result</title>
+  <!-- Bootstrap CDN -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" >
+</head>
+<body>
+<!-- ヘッダー -->
+<header>
+  <nav class="navbar navbar-expand-lg sticky-top nabvar-dark bg-dark">
+    <h1 class="navbar-brand text-white m-1 p-2 font-weight-bold">
+      JCW Access Log Analysis
+    </h1>
+  </nav>
+</header>
+
+<!-- コンテンツ -->
+<main class="container-fluid">
+  <div class="row">
+    <!-- サイドバー -->
+    <nav class="sidebar col-md-3 col-lg-2 d-md-block bg-light collapse border-right">
+      <div class="sidebar-sticky pt-3">
+        <h5 class="sidebar-heading my-3">Access Route</h5>
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link text-body h6" href="#">
+              All
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-body h6" href="#">
+              Default
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-body h6" href="#">
+              Create
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-body h6" href="#">
+              Download
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- メインコンテンツ -->
+    <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+      <div class="m-3 border-bottom">
+        <h1 class="h2 py-2">Access Route: All</h1>
+      </div>
+      <div class="m-3">
+        <!-- 総アクセス数分析 -->
+        <h5 class="font-weight-bold">総アクセス数分析</h5>
+        <table class="table table-hover mt-4">
+          <thead>
+            <tr>
+              <th>機能種別</th>
+              <th>総アクセス数</th>
+              <th>総ユーザ数</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>メイン画面</th>
+              <td>{{ main_page.access_count }}</td>
+              <td>{{ main_page.user_count }}</td>
+            </tr>
+            <tr>
+              <th>PDF作成</th>
+              <td>{{ create_page.access_count }}</td>
+              <td>{{ create_page.user_count }}</td>
+            </tr>
+            <tr>
+              <th>ダウンロード</th>
+              <td>{{ download_page.access_count }}</td>
+              <td>{{ download_page.user_count }}</td>
+            </tr>
+            <tr>
+              <th>合計</th>
+              <td>{{ all_page.access_count }}</td>
+              <td>{{ all_page.user_count }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- 日別アクセス数分析 -->
+        <h5 class="font-weight-bold">日別アクセス数分析</h5>
+        <canvas id="DailyAccessChart"></canvas>
+      </div>
+    </main>
+  </div>
+</main>
+
+<!-- Chart.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+<script>
+  var ctx = document.getElementById("DailyAccessChart");
+  var dailyAccessChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: {{ days }},
+      datasets: [
+        {
+          label: '総アクセス',
+          data: {{ daily_all_access }},
+          borderColor: "rgba(255,0,0,1)",
+          backgroundColor: "rgba(0,0,0,0)"
+        },
+        {
+          label: 'PDF作成',
+          data: {{ daily_create_access }},
+          borderColor: "rgba(0,0,255,1)",
+          backgroundColor: "rgba(0,0,0,0)"
+        },
+        {
+          label: 'ダウンロード',
+          data: {{ daily_download_access }},
+          borderColor: "rgba(0,255,0,1)",
+          backgroundColor: "rgba(0,0,0,0)"
+        }
+      ],
+    },
+    options: {
+      title: {
+        display: true,
+        text: '日別アクセス数'
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            suggestedMax: 1600,
+            suggestedMin: 0,
+            stepSize: 200,
+            callback: function(value, index, values){
+              return  value +  'アクセス'
+            }
+          }
+        }]
+      },
+    }
+  });
+</script>
+<!-- jQuery for Bootstrap -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

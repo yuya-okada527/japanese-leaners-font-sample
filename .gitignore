@@ -140,3 +140,4 @@ fonts/
 # アクセスログ
 operation/logs/
 operation/analysis/
+operation/rendered/

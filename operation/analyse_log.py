@@ -4,10 +4,12 @@ import json
 import time
 from pathlib import Path
 from enum import Enum
-from typing import List, Dict, Callable
+from typing import List, Dict, Callable, Any
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from collections import defaultdict
+
+from jinja2 import Environment, FileSystemLoader
 
 DATETIME_FMT = "%Y-%m-%dT%H:%M:%SZ"
 DATE_KEY_FMT = "%Y/%m/%d"
@@ -17,6 +19,17 @@ ANALYSIS_TEXT = os.path.join(
     "analysis",
     "text.txt"
 )
+TEMPLATE_DIR = os.path.join(
+    Path(__file__).resolve().parents[0],
+    "template"
+)
+OUTPUT_HTML = "access_analysis.html"
+RENDERED_HTML_PATH = os.path.join(
+    Path(__file__).resolve().parents[0],
+    "rendered",
+    OUTPUT_HTML
+)
+
 
 class AccessRoute(Enum):
     DEFAULT = (
@@ -105,6 +118,29 @@ def count_user(access_logs: List[AccessLog]) -> int:
     return len(set([access_log.ip_address for access_log in access_logs]))
 
 
+def make_html(file_name: str, data: Dict[str, Any]) -> str:
+
+    # templateファイルを取得
+    env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
+    template = env.get_template(file_name)
+
+    # htmlをレンダリング
+    return template.render(data)
+
+
+def save_html(file_path: str, html:str) -> None:
+    with open(file_path, mode="w", encoding="utf-8") as f:
+        f.write(html)
+
+
+def count_daily_access(access_logs: List[AccessLog]) -> Dict[str, int]:
+    access_by_day = defaultdict(int)
+    for access_log in access_logs:
+        day = access_log.date_time.strftime(DATE_KEY_FMT)
+        access_by_day[day] += 1
+    return access_by_day
+
+
 def analyse_default_route():
     print("Start analysing default route /")
 
@@ -151,28 +187,58 @@ def analyse_download_route():
         print(f"file={file} is downloaded {count} times")
 
 
-def analyse_all_route():
-    print("Start analysing all route ['/', '/create', '/download']")
+def analyse_all_route() -> Dict[str, Any]:
 
     # アクセスログを全て取得
-    access_logs = []
-    access_logs.extend(download_logs(AccessRoute.DEFAULT.log_path))
-    access_logs.extend(download_logs(AccessRoute.CREATE.log_path))
-    access_logs.extend(download_logs(AccessRoute.DOWNLOAD.log_path))
-
-    # アクセス数を計算
-    access_count = len(access_logs)
-    user_count = count_user(access_logs)
-    print(f"総アクセス数: {access_count}, 総ユーザ数: {user_count}")
+    default_access_logs = download_logs(AccessRoute.DEFAULT.log_path)
+    create_access_logs = download_logs(AccessRoute.CREATE.log_path)
+    download_access_logs = download_logs(AccessRoute.DOWNLOAD.log_path)
+    all_access_logs = []
+    all_access_logs.extend(default_access_logs)
+    all_access_logs.extend(create_access_logs)
+    all_access_logs.extend(download_access_logs)
 
     # 日にちごとのアクセス数を計算
-    access_by_day = defaultdict(list)
-    for access_log in access_logs:
-        day = access_log.date_time.strftime(DATE_KEY_FMT)
-        access_by_day[day].append(access_log)
+    daily_create_access = count_daily_access(create_access_logs)
+    daily_download_access = count_daily_access(download_access_logs)
+    daily_all_access = count_daily_access(all_access_logs)
 
-    for day, logs in access_by_day.items():
-        print(f"{day}: 総アクセス: {len(logs)}, 総ユーザ数: {count_user(logs)}")
+    # データの作成
+    return {
+        "main_page": {
+            "access_count": len(default_access_logs),
+            "user_count": count_user(default_access_logs)
+        },
+        "create_page": {
+            "access_count": len(create_access_logs),
+            "user_count": count_user(create_access_logs)
+        },
+        "download_page": {
+            "access_count": len(download_access_logs),
+            "user_count": count_user(download_access_logs)
+        },
+        "all_page": {
+            "access_count": len(all_access_logs),
+            "user_count": count_user(all_access_logs)
+        },
+        "days": list(daily_all_access.keys()),
+        "daily_all_access": list(daily_all_access.values()),
+        "daily_create_access": list(daily_create_access.values()),
+        "daily_download_access": list(daily_download_access.values())
+    }
+
+
+def output_html():
+    print("Start making html file.")
+
+    # データの作成
+    data = analyse_all_route()
+
+    # HTMLの作成
+    html = make_html(OUTPUT_HTML, data)
+
+    # HTMLを保存
+    save_html(RENDERED_HTML_PATH, html)
 
 
 class ServiceDiv(Enum):
@@ -191,6 +257,10 @@ class ServiceDiv(Enum):
     ALL = (
         "all",
         analyse_all_route
+    )
+    OUTPUT = (
+        "output",
+        output_html
     )
 
     def __new__(

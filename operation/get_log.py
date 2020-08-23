@@ -73,8 +73,8 @@ def split_query(query):
 
 def calc_time(sec):
     hour, res = divmod(sec, 60**2)
-    min, second = divmod(res, 60)
-    return hour, min, second
+    minutes, second = divmod(res, 60)
+    return hour, minutes, second
 
 
 def get_config(file_path: str) -> Dict[str, Any]:
@@ -136,7 +136,7 @@ def main():
     bucket = session.resource("s3").Bucket(os.getenv("S3_BUCKET_NAME"))
     log_texts = []
     for log_text in bucket.objects.filter(Prefix=LOG_PREFIX):
-        if log_text.key <= LOG_PREFIX + config["last_processed_file"]:
+        if log_text.key <= config["last_processed_file"]:
             continue
         print(f"key={log_text.key} is processing...")
         log_texts.extend(decompress(log_text.get()["Body"].read()).split("\n"))
@@ -178,8 +178,8 @@ def main():
 
     # 時間計測
     end = time.time()
-    hour, min, sec = calc_time(end - start)
-    print(f"process time is {hour}h {min}m {sec}s")
+    hour, minutes, sec = calc_time(end - start)
+    print(f"process time is {hour}h {minutes}m {sec}s")
 
 
 if __name__ == "__main__":
