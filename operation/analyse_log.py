@@ -30,6 +30,8 @@ RENDERED_HTML_PATH = os.path.join(
     OUTPUT_HTML
 )
 
+COLUMN_SIZE = 4
+
 
 class AccessRoute(Enum):
     DEFAULT = (
@@ -146,7 +148,6 @@ def analyse_default_route():
 
 
 def analyse_create_route():
-    print("Start analysing create route /create")
 
     # アクセスログを取得
     access_logs = download_logs(AccessRoute.CREATE.log_path)
@@ -155,36 +156,64 @@ def analyse_create_route():
     texts = set()
     sizes = defaultdict(int)
     horizontals = 0
+    layouts = {
+        "タテ": {
+            "small": 0,
+            "middle": 0,
+            "large": 0
+        },
+        "ヨコ": {
+            "small": 0,
+            "middle": 0,
+            "large": 0
+        }
+    }
     for log in access_logs:
         texts.add(log.queries.get("text", None))
         sizes[log.queries.get("font-size", None)] += 1
         horizontals += bool(log.queries.get("horizontal", None))
 
+        # レイアウトを集計
+        horizontal = "ヨコ" if log.queries.get("horizontal", None) else "タテ"
+        size = log.queries.get("font-size", None)
+        if size not in ("small", "middle", "large"):
+            continue
+        layouts[horizontal][size] += 1
+
     # 集計結果を出力
-    print(f"/create リクエスト数: {len(access_logs)}")
-    with open(ANALYSIS_TEXT, mode="a", encoding="utf-8") as wf:
-        for text in texts:
-            wf.write(str(text) + "\n")
-    for size, count in sizes.items():
-        print(f"{size} = {count}")
-    print(f"横: {horizontals}, 縦: {len(access_logs) - horizontals}")
+    # with open(ANALYSIS_TEXT, mode="a", encoding="utf-8") as wf:
+    #     for text in texts:
+    #         wf.write(str(text) + "\n")
+    # for size, count in sizes.items():
+    #     print(f"{size} = {count}")
+
+    texts.remove("")
+
+    # データを変換
+    return {
+        "texts": [[list(texts)[i + j * COLUMN_SIZE] for i in range(COLUMN_SIZE)]
+                  for j in range(len(texts)//COLUMN_SIZE)],
+        "layouts": layouts
+    }
 
 
 def analyse_download_route():
-    print("Start analysing download route /download")
 
     # アクセスログを取得
     access_logs = download_logs(AccessRoute.DOWNLOAD.log_path)
 
     # ダウンロードファイルごとに数を集計
-    files =defaultdict(int)
+    files = defaultdict(int)
     for log in access_logs:
         files[log.queries.get("key")] += 1
 
-    # 集計結果を出力
-    print(f"/download リクエスト数: {len(access_logs)}")
-    for file, count in files.items():
-        print(f"file={file} is downloaded {count} times")
+    return {
+        "file_count": {
+            key.split("/")[-1]: value
+            for key, value in files.items()
+            if key
+        }
+    }
 
 
 def analyse_all_route() -> Dict[str, Any]:
@@ -232,7 +261,11 @@ def output_html():
     print("Start making html file.")
 
     # データの作成
-    data = analyse_all_route()
+    data = {
+        "all": analyse_all_route(),
+        "create": analyse_create_route(),
+        "download": analyse_download_route()
+    }
 
     # HTMLの作成
     html = make_html(OUTPUT_HTML, data)

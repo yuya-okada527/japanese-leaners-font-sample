@@ -22,68 +22,63 @@
     <!-- サイドバー -->
     <nav class="sidebar col-md-3 col-lg-2 d-md-block bg-light collapse border-right">
       <div class="sidebar-sticky pt-3">
-        <h5 class="sidebar-heading my-3">Access Route</h5>
+        <h5 class="sidebar-heading font-weight-bold my-3">アクセス数解析</h5>
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link text-body h6" href="#">
-              All
+            <a id="AllAccessLink" class="nav-link text-body h6" href="#">
+              すべてのアクセス
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-body h6" href="#">
-              Default
+            <a id="CreateAccessLink" class="nav-link text-body h6" href="#">
+              PDF作成
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-body h6" href="#">
-              Create
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-body h6" href="#">
-              Download
+            <a id="DownloadAccessLink" class="nav-link text-body h6" href="#">
+              ダウンロード
             </a>
           </li>
         </ul>
       </div>
     </nav>
 
-    <!-- メインコンテンツ -->
-    <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+    <!-- すべてのアクセス -->
+    <main id="AllAccess" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
       <div class="m-3 border-bottom">
-        <h1 class="h2 py-2">Access Route: All</h1>
+        <h1 class="h2 py-2 font-weight-bold">アクセス数解析: すべてのアクセス</h1>
       </div>
       <div class="m-3">
         <!-- 総アクセス数分析 -->
         <h5 class="font-weight-bold">総アクセス数分析</h5>
-        <table class="table table-hover mt-4">
+        <table class="table table-hover table-sm mt-3">
           <thead>
             <tr>
               <th>機能種別</th>
-              <th>総アクセス数</th>
-              <th>総ユーザ数</th>
+              <th>アクセス数</th>
+              <th>ユーザ数</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <th>メイン画面</th>
-              <td>{{ main_page.access_count }}</td>
-              <td>{{ main_page.user_count }}</td>
+              <td>{{ all.main_page.access_count }}</td>
+              <td>{{ all.main_page.user_count }}</td>
             </tr>
             <tr>
               <th>PDF作成</th>
-              <td>{{ create_page.access_count }}</td>
-              <td>{{ create_page.user_count }}</td>
+              <td>{{ all.create_page.access_count }}</td>
+              <td>{{ all.create_page.user_count }}</td>
             </tr>
             <tr>
               <th>ダウンロード</th>
-              <td>{{ download_page.access_count }}</td>
-              <td>{{ download_page.user_count }}</td>
+              <td>{{ all.download_page.access_count }}</td>
+              <td>{{ all.download_page.user_count }}</td>
             </tr>
             <tr>
               <th>合計</th>
-              <td>{{ all_page.access_count }}</td>
-              <td>{{ all_page.user_count }}</td>
+              <td>{{ all.all_page.access_count }}</td>
+              <td>{{ all.all_page.user_count }}</td>
             </tr>
           </tbody>
         </table>
@@ -91,6 +86,80 @@
         <!-- 日別アクセス数分析 -->
         <h5 class="font-weight-bold">日別アクセス数分析</h5>
         <canvas id="DailyAccessChart"></canvas>
+      </div>
+    </main>
+
+    <!-- PDF作成アクセス -->
+    <main id="CreateAccess" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" hidden>
+      <div class="m-3 border-bottom">
+        <h1 class="h2 py-2 font-weight-bold">アクセス数解析: PDF作成</h1>
+      </div>
+      <div class="m-3">
+        <!-- 作成PDF文字列 -->
+        <h5 class="font-weight-bold">作成PDF文字列</h5>
+        <div class="table-responsive overflow-auto mb-3 border-bottom border-top" style="height:200px">
+          <table class="table table-sm table-bordered mt-4">
+            <tbody>
+              {% for row in create.texts %}
+              <tr>
+                {% for cell in row %}
+                <td width="25%">{{ cell }}</td>
+                {% endfor %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <!-- レイアウト集計 -->
+        <h5 class="font-weight-bold">レイアウト集計</h5>
+        <table class="table table-sm table-bordered mt-4">
+          <thead>
+            <tr>
+              <th>方向</th>
+              <th>small</th>
+              <th>middle</th>
+              <th>large</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for direction, d in create.layouts.items() %}
+            <tr>
+              <th>{{ direction }}</th>
+              {% for size, count in d.items() %}
+              <td>{{ count }}</td>
+              {% endfor %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </main>
+
+    <!-- ダウンロード -->
+    <main id="DownloadAccess" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" hidden>
+      <div class="m-3 border-bottom">
+        <h1 class="h2 py-2 font-weight-bold">アクセス数解析: ダウンロード</h1>
+      </div>
+      <div class="m-3">
+        <!-- ファイルごとの集計 -->
+        <h5 class="font-weight-bold">ファイルごとの集計</h5>
+        <table class="table table-hover table-sm mt-3">
+          <thead>
+            <tr>
+              <th>ファイル名</th>
+              <th>ダウンロード数</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for file, count in download.file_count.items() %}
+            <tr>
+              <th>{{ file }}</th>
+              <td>{{ count }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
     </main>
   </div>
@@ -103,23 +172,23 @@
   var dailyAccessChart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: {{ days }},
+      labels: {{ all.days }},
       datasets: [
         {
           label: '総アクセス',
-          data: {{ daily_all_access }},
+          data: {{ all.daily_all_access }},
           borderColor: "rgba(255,0,0,1)",
           backgroundColor: "rgba(0,0,0,0)"
         },
         {
           label: 'PDF作成',
-          data: {{ daily_create_access }},
+          data: {{ all.daily_create_access }},
           borderColor: "rgba(0,0,255,1)",
           backgroundColor: "rgba(0,0,0,0)"
         },
         {
           label: 'ダウンロード',
-          data: {{ daily_download_access }},
+          data: {{ all.daily_download_access }},
           borderColor: "rgba(0,255,0,1)",
           backgroundColor: "rgba(0,0,0,0)"
         }
@@ -128,7 +197,8 @@
     options: {
       title: {
         display: true,
-        text: '日別アクセス数'
+        text: '日別アクセス数',
+        position: 'bottom'
       },
       scales: {
         yAxes: [{
@@ -144,6 +214,43 @@
       },
     }
   });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+
+    console.log('DOMContentLoaded');
+
+    // リンクをそれぞれ取得
+    var allAccessLink = document.getElementById('AllAccessLink');
+    var createAccessLink = document.getElementById('CreateAccessLink');
+    var downloadAccessLink = document.getElementById('DownloadAccessLink');
+
+    // clickイベントをセット
+    allAccessLink.addEventListener('click', function(e){
+      console.log('allAccess');
+      e.preventDefault();
+      // 可視性を変更
+      document.getElementById('AllAccess').hidden = false;
+      document.getElementById('CreateAccess').hidden = true;
+      document.getElementById('DownloadAccess').hidden = true;
+    }, false);
+    createAccessLink.addEventListener('click', function(e){
+      console.log('createAccess');
+      e.preventDefault();
+      // 可視性を変更
+      document.getElementById('AllAccess').hidden = true;
+      document.getElementById('CreateAccess').hidden = false;
+      document.getElementById('DownloadAccess').hidden = true;
+    }, false);
+    downloadAccessLink.addEventListener('click', function(e){
+      console.log('downloadAccess');
+      e.preventDefault();
+      // 可視性を変更
+      document.getElementById('AllAccess').hidden = true;
+      document.getElementById('CreateAccess').hidden = true;
+      document.getElementById('DownloadAccess').hidden = false;
+    }, false);
+  })
 </script>
 <!-- jQuery for Bootstrap -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
