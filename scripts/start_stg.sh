@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # envファイルが存在するか確認
-if [ ! -e .env ]; then
+if [ ! -e stg.env ]; then
   echo ".env does not exist."
   exit 1
 fi
