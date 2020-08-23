@@ -9,7 +9,7 @@ from flask import (
 
 from .enums import FontSize
 from .domain.service import get_workbooks, get_workbook
-from .domain.pdf import PdfWriter
+from .domain.pdf import PdfWriter, Layout
 from .logger import create_logger
 from .config import settings
 
@@ -42,7 +42,7 @@ def create():
             "index.html",
             workbooks=get_workbooks(),
             error="入力欄が未記入です。",
-            env = settings.env.value
+            env=settings.env.value
         ), 421
 
     try:
@@ -68,7 +68,11 @@ def create():
         ), 421
 
     # サンプルのPDFファイルを作成する
-    pdf_writer = PdfWriter.make_pdf_writer(font_size, horizontal)
+    if not request.args.get("layout_specified"):
+        layout = Layout.optimize_layout(text)
+        pdf_writer = PdfWriter.from_layout(layout)
+    else:
+        pdf_writer = PdfWriter.make_pdf_writer(font_size, horizontal)
     pdf_file = pdf_writer.write(text)
 
     # レスポンスの作成

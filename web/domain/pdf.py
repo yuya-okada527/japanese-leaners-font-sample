@@ -63,6 +63,22 @@ class Layout:
             draw_on=font_size.value["draw_on"]
         )
 
+    @classmethod
+    def optimize_layout(cls, text: str):
+        text_size = len(text)
+        if text_size <= 6:
+            return cls.make_layout(FontSize.LARGE, False)
+        elif text_size <= 8:
+            return cls.make_layout(FontSize.MIDDLE, False)
+        elif text_size <= 10:
+            return cls.make_layout(FontSize.SMALL, False)
+        elif text_size <= 13:
+            return cls.make_layout(FontSize.MIDDLE, True)
+        elif text_size <= 15:
+            return cls.make_layout(FontSize.SMALL, True)
+        else:
+            raise ValueError(f"text size={text_size} > 15")
+
 
 @dataclass()
 class PdfWriter:
@@ -138,4 +154,8 @@ class PdfWriter:
     @classmethod
     def make_pdf_writer(cls, font_size: FontSize, horizontal: bool):
         layout = Layout.make_layout(font_size, horizontal)
+        return cls(layout)
+
+    @classmethod
+    def from_layout(cls, layout: Layout):
         return cls(layout)
