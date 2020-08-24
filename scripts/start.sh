@@ -12,17 +12,17 @@ if [ ! -e .env ]; then
 fi
 
 # 起動ずみのコンテナを停止
-docker stop jcw-demo-log
+# docker stop jcw-demo-log
 docker stop jcw-demo-app
 
 # Dockerビルド
-docker build -t jcw-demo-log:0.0.1 logs/
+# docker build -t jcw-demo-log:0.0.1 logs/
 docker build -t jcw-demo:0.0.1 .
 
 # アプリ起動
-docker run --name jcw-demo-log --rm -d -p 8888:8888  \
---env-file logs/.env \
-jcw-demo-log:0.0.1
+#docker run --name jcw-demo-log --rm -d -p 8888:8888  \
+#--env-file logs/.env \
+#jcw-demo-log:0.0.1
 
 docker run --name jcw-demo-app --rm -d -p 80:5000 \
 --env-file .env \
