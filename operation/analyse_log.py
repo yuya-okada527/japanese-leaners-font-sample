@@ -205,6 +205,9 @@ def analyse_download_route():
     # ダウンロードファイルごとに数を集計
     files = defaultdict(int)
     for log in access_logs:
+        # URLエスケープされているクエリはスキップ
+        if log.queries.get("key") is not None and "%" in log.queries.get("key"):
+            continue
         files[log.queries.get("key")] += 1
 
     return {
