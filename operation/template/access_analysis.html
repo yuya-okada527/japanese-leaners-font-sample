@@ -45,8 +45,13 @@
 
     <!-- すべてのアクセス -->
     <main id="AllAccess" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-      <div class="m-3 border-bottom">
-        <h1 class="h2 py-2 font-weight-bold">アクセスログ解析: すべてのアクセス</h1>
+      <div class="row border-bottom">
+        <div class="col-9 m-3">
+          <h1 class="h2 py-2 font-weight-bold">アクセスログ解析: すべてのアクセス</h1>
+        </div>
+        <div class="col-2 pt-3">
+          <span>ログ取得日時{{ log_aggregate_time }}</span>
+        </div>
       </div>
       <div class="m-3">
         <!-- 総アクセス数分析 -->
@@ -91,8 +96,13 @@
 
     <!-- PDF作成アクセス -->
     <main id="CreateAccess" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" hidden>
-      <div class="m-3 border-bottom">
-        <h1 class="h2 py-2 font-weight-bold">アクセスログ解析: PDF作成</h1>
+      <div class="row border-bottom">
+        <div class="col-9 m-3">
+          <h1 class="h2 py-2 font-weight-bold">アクセスログ解析: PDF作成</h1>
+        </div>
+        <div class="col-2 pt-3">
+          <span>ログ取得日時{{ log_aggregate_time }}</span>
+        </div>
       </div>
       <div class="m-3">
         <!-- 作成PDF文字列 -->
@@ -138,8 +148,13 @@
 
     <!-- ダウンロード -->
     <main id="DownloadAccess" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" hidden>
-      <div class="m-3 border-bottom">
-        <h1 class="h2 py-2 font-weight-bold">アクセスログ解析: ダウンロード</h1>
+      <div class="row border-bottom">
+        <div class="col-9 m-3">
+          <h1 class="h2 py-2 font-weight-bold">アクセスログ解析: ダウンロード</h1>
+        </div>
+        <div class="col-2 pt-3">
+          <span>ログ取得日時{{ log_aggregate_time }}</span>
+        </div>
       </div>
       <div class="m-3">
         <!-- ファイルごとの集計 -->
@@ -167,6 +182,7 @@
 
 <!-- Chart.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+</script>
 <script>
   var ctx = document.getElementById("DailyAccessChart");
   var dailyAccessChart = new Chart(ctx, {
@@ -218,8 +234,6 @@
 <script>
   document.addEventListener('DOMContentLoaded', function() {
 
-    console.log('DOMContentLoaded');
-
     // リンクをそれぞれ取得
     var allAccessLink = document.getElementById('AllAccessLink');
     var createAccessLink = document.getElementById('CreateAccessLink');
@@ -227,7 +241,6 @@
 
     // clickイベントをセット
     allAccessLink.addEventListener('click', function(e){
-      console.log('allAccess');
       e.preventDefault();
       // 可視性を変更
       document.getElementById('AllAccess').hidden = false;
@@ -235,7 +248,6 @@
       document.getElementById('DownloadAccess').hidden = true;
     }, false);
     createAccessLink.addEventListener('click', function(e){
-      console.log('createAccess');
       e.preventDefault();
       // 可視性を変更
       document.getElementById('AllAccess').hidden = true;
@@ -243,7 +255,6 @@
       document.getElementById('DownloadAccess').hidden = true;
     }, false);
     downloadAccessLink.addEventListener('click', function(e){
-      console.log('downloadAccess');
       e.preventDefault();
       // 可視性を変更
       document.getElementById('AllAccess').hidden = true;

@@ -8,6 +8,7 @@ from dataclasses import dataclass
 from typing import List, Dict, Tuple, Any
 from collections import defaultdict
 import time
+from datetime import datetime
 
 from dotenv import load_dotenv
 from boto3.session import Session
@@ -84,7 +85,7 @@ def get_config(file_path: str) -> Dict[str, Any]:
 
 def update_config(config: Dict[str, Any], file_path: str) -> None:
     with open(file_path, mode="w", encoding="utf-8") as wf:
-        wf.write(json.dumps(config))
+        wf.write(json.dumps(config, indent=2))
 
 
 def make_log_path(route: str, log_dir: str) -> str:
@@ -142,6 +143,7 @@ def main():
         log_texts.extend(decompress(log_text.get()["Body"].read()).split("\n"))
 
     # 設定ファイルを書き換え
+    config["log_aggregate_time"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
     config["last_processed_file"] = log_text.key
     update_config(config, CONFIG_PATH)
 

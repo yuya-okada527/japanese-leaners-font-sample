@@ -29,6 +29,10 @@ RENDERED_HTML_PATH = os.path.join(
     "rendered",
     OUTPUT_HTML
 )
+CONFIG_PATH = os.path.join(
+    Path(__file__).resolve().parents[0],
+    "config.json"
+)
 
 COLUMN_SIZE = 4
 
@@ -79,6 +83,11 @@ class AccessLog:
     route: str
     queries: Dict[str, str]
     status_code: int
+
+
+def get_config(file_path: str) -> Dict[str, Any]:
+    with open(file_path, mode="r", encoding="utf-8") as f:
+        return json.load(f)
 
 
 def calc_time(sec):
@@ -263,8 +272,12 @@ def analyse_all_route() -> Dict[str, Any]:
 def output_html():
     print("Start making html file.")
 
+    # 設定データを取得
+    config = get_config(CONFIG_PATH)
+
     # データの作成
     data = {
+        "log_aggregate_time": config["log_aggregate_time"],
         "all": analyse_all_route(),
         "create": analyse_create_route(),
         "download": analyse_download_route()
