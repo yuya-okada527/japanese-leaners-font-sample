@@ -107,7 +107,7 @@
       <div class="m-3">
         <!-- 作成PDF文字列 -->
         <h5 class="font-weight-bold">作成PDF文字列</h5>
-        <div class="table-responsive overflow-auto mb-3 border-bottom border-top" style="height:300px">
+        <div class="table-responsive overflow-auto mb-3 border" style="height:300px">
           <table class="table table-sm table-bordered mt-4">
             <tbody>
               {% for row in create.texts %}
@@ -143,6 +143,7 @@
             {% endfor %}
           </tbody>
         </table>
+        <canvas id="myPieChart"></canvas>
       </div>
     </main>
 
@@ -231,6 +232,30 @@
     }
   });
 </script>
+<script>
+  var ctx = document.getElementById("myPieChart");
+  var myPieChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: ["A型", "O型", "B型", "AB型"],
+      datasets: [{
+          backgroundColor: [
+              "#BB5179",
+              "#FAFF67",
+              "#58A27C",
+              "#3C00FF"
+          ],
+          data: [38, 31, 21, 10]
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: '血液型 割合'
+      }
+    }
+  });
+  </script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
 
