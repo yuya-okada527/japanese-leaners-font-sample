@@ -148,8 +148,13 @@ def count_daily_access(access_logs: List[AccessLog]) -> Dict[str, int]:
     access_by_day = defaultdict(int)
     for access_log in access_logs:
         day = access_log.date_time.strftime(DATE_KEY_FMT)
-        access_by_day[day] += 1
+        if access_log.status_code < 300:
+            access_by_day[day] += 1
     return access_by_day
+
+
+def filter_invalid_access(access_logs: List[AccessLog]) -> List[AccessLog]:
+    return [log for log in access_logs if log.status_code < 300]
 
 
 def analyse_default_route():
@@ -247,20 +252,20 @@ def analyse_all_route() -> Dict[str, Any]:
     # データの作成
     return {
         "main_page": {
-            "access_count": len(default_access_logs),
-            "user_count": count_user(default_access_logs)
+            "access_count": len(filter_invalid_access(default_access_logs)),
+            "user_count": count_user(filter_invalid_access(default_access_logs))
         },
         "create_page": {
-            "access_count": len(create_access_logs),
-            "user_count": count_user(create_access_logs)
+            "access_count": len(filter_invalid_access(create_access_logs)),
+            "user_count": count_user(filter_invalid_access(create_access_logs))
         },
         "download_page": {
-            "access_count": len(download_access_logs),
-            "user_count": count_user(download_access_logs)
+            "access_count": len(filter_invalid_access(download_access_logs)),
+            "user_count": count_user(filter_invalid_access(download_access_logs))
         },
         "all_page": {
-            "access_count": len(all_access_logs),
-            "user_count": count_user(all_access_logs)
+            "access_count": len(filter_invalid_access(all_access_logs)),
+            "user_count": count_user(filter_invalid_access(all_access_logs))
         },
         "days": list(daily_all_access.keys()),
         "daily_all_access": list(daily_all_access.values()),
