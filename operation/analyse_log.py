@@ -157,6 +157,14 @@ def filter_invalid_access(access_logs: List[AccessLog]) -> List[AccessLog]:
     return [log for log in access_logs if log.status_code < 300]
 
 
+def sort_dict(d: Dict[Any, Any]) -> Dict[Any, Any]:
+    sorted_dict = {}
+    for key, value in sorted(d.items()):
+        sorted_dict[key] = value
+
+    return sorted_dict
+
+
 def analyse_default_route():
     print("Start analysing default route /")
 
@@ -207,13 +215,15 @@ def analyse_create_route():
 
     texts.remove("")
 
+    sorted_status_codes = sort_dict(status_codes)
+
     # データを変換
     return {
         "texts": [[list(texts)[i + j * COLUMN_SIZE] for i in range(COLUMN_SIZE)]
                   for j in range(len(texts)//COLUMN_SIZE)],
         "layouts": layouts,
-        "status_codes": list(status_codes.keys()),
-        "count_by_status_code": list(status_codes.values())
+        "status_codes": list(sorted_status_codes.keys()),
+        "count_by_status_code": list(sorted_status_codes.values())
     }
 
 
