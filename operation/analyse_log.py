@@ -182,6 +182,7 @@ def analyse_create_route():
             "large": 0
         }
     }
+    status_codes = defaultdict(int)
     for log in access_logs:
         texts.add(log.queries.get("text", None))
         sizes[log.queries.get("font-size", None)] += 1
@@ -193,6 +194,9 @@ def analyse_create_route():
         if size not in ("small", "middle", "large"):
             continue
         layouts[horizontal][size] += 1
+
+        # ステータスコード集計
+        status_codes[log.status_code] += 1
 
     # 集計結果を出力
     # with open(ANALYSIS_TEXT, mode="a", encoding="utf-8") as wf:
@@ -207,7 +211,9 @@ def analyse_create_route():
     return {
         "texts": [[list(texts)[i + j * COLUMN_SIZE] for i in range(COLUMN_SIZE)]
                   for j in range(len(texts)//COLUMN_SIZE)],
-        "layouts": layouts
+        "layouts": layouts,
+        "status_codes": list(status_codes.keys()),
+        "count_by_status_code": list(status_codes.values())
     }
 
 
