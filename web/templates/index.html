@@ -27,8 +27,9 @@
         <label class="control-label">入力欄</label>
         <input id="LayoutSpecified" class="form-check-input ml-2" type="checkbox" name="layout_specified">
         <label class="form-check-label text-muted ml-4" for="LayoutSpecified">レイアウトを指定</label>
-        <input class="form-control" type="text" name="text" placeholder="例: リオネル メッシ">
+        <input id="TextBox" class="form-control" type="text" name="text" placeholder="例: リオネル メッシ">
       </div>
+      <div class="alert alert-warning mx-3" role="alert" id="warn_for_text" hidden>文字数は15文字までとなっています。</div>
       {% if error %}
       <div class="alert alert-danger mx-3" role="alert" id="error_for_text">{{ error }}</div>
       {% endif %}
@@ -152,7 +153,20 @@
       } else {
         document.getElementById("LayoutControl").hidden = true;
       }
-    }, false)
+    }, false);
+
+    // テキストの文字列長制限を超えた場合、警告を出す
+    document.getElementById("TextBox").addEventListener("input", function(e) {
+
+      // 文字列長をチェック
+      if (e.target.value.length > 15) {
+        document.getElementById("warn_for_text").hidden = false;
+        document.getElementById("download").disabled = true;
+      } else {
+        document.getElementById("warn_for_text").hidden = true;
+        document.getElementById("download").disabled = false;
+      }
+    }, false);
   })();
 </script>
 {% endblock %}
