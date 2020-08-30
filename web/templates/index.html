@@ -27,7 +27,11 @@
         <label class="control-label">入力欄</label>
         <input id="LayoutSpecified" class="form-check-input ml-2" type="checkbox" name="layout_specified">
         <label class="form-check-label text-muted ml-4" for="LayoutSpecified">レイアウトを指定</label>
-        <input id="TextBox" class="form-control" type="text" name="text" placeholder="例: リオネル メッシ">
+        <input id="TextBox1" class="form-control" type="text" name="text" placeholder="例: リオネル メッシ">
+        <input id="TextBox2" class="form-control" type="text" name="text" placeholder="例: リオネル メッシ" hidden>
+        <input id="TextBox3" class="form-control" type="text" name="text" placeholder="例: リオネル メッシ" hidden>
+        <input id="TextBox4" class="form-control" type="text" name="text" placeholder="例: リオネル メッシ" hidden>
+        <input id="TextBox5" class="form-control" type="text" name="text" placeholder="例: リオネル メッシ" hidden>
       </div>
       <div class="alert alert-warning mx-3" role="alert" id="warn_for_text" hidden>文字数は15文字までとなっています。</div>
       {% if error %}
@@ -73,6 +77,7 @@
       </div>
       <div class="form-row text-center">
         <div class="col-12">
+          <div class="btn btn-primary" id="AddTextBox" data-num="1">追加</div>
           <button class="btn btn-primary" type="submit" id="download">ダウンロード</button>
         </div>
       </div>
@@ -125,6 +130,7 @@
       <div class="col-12">
         <ul>
           <li><span>レイアウト指定なしの場合、自動にレイアウトを調整する機能を追加 (8/24)</span></li>
+          <li><span>複数ページ生成機能を追加 (8/31)</span></li>
         </ul>
       </div>
     </div>
@@ -156,17 +162,27 @@
     }, false);
 
     // テキストの文字列長制限を超えた場合、警告を出す
-    document.getElementById("TextBox").addEventListener("input", function(e) {
+    for (let i = 1; i <= 5; i++) {
+      let id = "TextBox" + i;
+      document.getElementById(id).addEventListener("input", function(e) {
+        // 文字列長をチェック
+        if (e.target.value.length > 15) {
+          document.getElementById("warn_for_text").hidden = false;
+          document.getElementById("download").disabled = true;
+        } else {
+          document.getElementById("warn_for_text").hidden = true;
+          document.getElementById("download").disabled = false;
+        }
+      }, false);
+    }
 
-      // 文字列長をチェック
-      if (e.target.value.length > 15) {
-        document.getElementById("warn_for_text").hidden = false;
-        document.getElementById("download").disabled = true;
-      } else {
-        document.getElementById("warn_for_text").hidden = true;
-        document.getElementById("download").disabled = false;
-      }
-    }, false);
+    // テキストボックス追加イベントを追加
+    document.getElementById("AddTextBox").addEventListener("click", function() {
+      let num = document.getElementById("AddTextBox").dataset.num;
+      num++;
+      document.getElementById("AddTextBox").dataset.num = num;
+      document.getElementById("TextBox" + num).hidden = false;
+    })
   })();
 </script>
 {% endblock %}

@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 from io import BytesIO
 from dataclasses import dataclass
-from typing import Tuple
+from typing import List, Tuple
 
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4, portrait, landscape
@@ -85,10 +85,7 @@ class PdfWriter:
     layout: Layout
     font_name: str = FONT_NAME
 
-    def write(self, text):
-
-        # テーブルに表示するデータを作成
-        data = self.make_data(text)
+    def write(self, text_list: List[str]):
 
         with BytesIO() as output:
 
@@ -99,35 +96,43 @@ class PdfWriter:
             # フォントを指定
             doc.setFont(self.font_name, self.layout.font_size)
 
-            # テーブルを作成
-            table = Table(data)
+            for text in text_list:
+                if text is None or len(text) == 0:
+                    continue
 
-            # テーブルスタイルを作成
-            table_style = [
-                ("FONT", (0, 0), (-1, -1), self.font_name, self.layout.font_size),
-                ("TEXTCOLOR",
-                 (0, self.layout.practice_num),
-                 (len(text) - 1, self.layout.practice_num),
-                 COLOR_GRAY),
-                ("LEFTPADDING", (0, 0), (-1, -1), 0),
-                ("RIGHTPADDING", (0, 0), (-1, -1), 0),
-            ]
+                # テーブルに表示するデータを作成
+                data = self.make_data(text)
 
-            if self.layout.sample_num == 2:
-                table_style.append(
+                # テーブルを作成
+                table = Table(data)
+
+                # テーブルスタイルを作成
+                table_style = [
+                    ("FONT", (0, 0), (-1, -1), self.font_name, self.layout.font_size),
                     ("TEXTCOLOR",
-                     (0, self.layout.practice_num * 2 + 2),
-                     (len(text) - 1, self.layout.practice_num * 2 + 2),
-                     COLOR_GRAY),
-                )
-            table.setStyle(TableStyle(table_style))
+                    (0, self.layout.practice_num),
+                    (len(text) - 1, self.layout.practice_num),
+                    COLOR_GRAY),
+                    ("LEFTPADDING", (0, 0), (-1, -1), 0),
+                    ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+                ]
 
-            # テーブルを描画
-            table.wrapOn(doc, self.layout.draw_on[0] * mm, self.layout.draw_on[1] * mm)
-            table.drawOn(doc, self.layout.draw_on[0] * mm, self.layout.draw_on[1] * mm)
+                if self.layout.sample_num == 2:
+                    table_style.append(
+                        ("TEXTCOLOR",
+                        (0, self.layout.practice_num * 2 + 2),
+                        (len(text) - 1, self.layout.practice_num * 2 + 2),
+                        COLOR_GRAY),
+                    )
+                table.setStyle(TableStyle(table_style))
 
-            # ドキュメントを描画する
-            doc.showPage()
+                # テーブルを描画
+                table.wrapOn(doc, self.layout.draw_on[0] * mm, self.layout.draw_on[1] * mm)
+                table.drawOn(doc, self.layout.draw_on[0] * mm, self.layout.draw_on[1] * mm)
+
+                # ドキュメントを描画する
+                doc.showPage()
+
             doc.save()
             return output.getvalue()
 

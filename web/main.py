@@ -34,9 +34,9 @@ def index():
 def create():
 
     # リクエストパラメータを取得
-    text = request.args.get("text")
+    text_list = request.args.getlist("text")
     # パラメータのバリデーション
-    if text is None or len(text) == 0:
+    if text_list[0] is None or len(text_list[0]) == 0:
         # log.info("Validation Error: text field is empty.")
         return render_template(
             "index.html",
@@ -53,12 +53,11 @@ def create():
             workbooks=get_workbooks(),
             error=f"フォントサイズの指定がありません。",
             env=settings.env.value
-
         ), 421
     horizontal = request.args.get("horizontal", default=False, type=bool)
 
     # 大きなサイズのリクエストが来ると負担になるので、制限する
-    if len(text) > MAX_TEXT_SIZE:
+    if len(text_list) > MAX_TEXT_SIZE:
         # log.info(f"Validation Error: text size > {MAX_TEXT_SIZE} size=" + str(len(text)))
         return render_template(
             "index.html",
@@ -69,17 +68,17 @@ def create():
 
     # サンプルのPDFファイルを作成する
     if request.args.get("layout_specified") != "on":
-        layout = Layout.optimize_layout(text)
+        layout = Layout.optimize_layout(text_list[0])  # 先頭で評価
         pdf_writer = PdfWriter.from_layout(layout)
     else:
         pdf_writer = PdfWriter.make_pdf_writer(font_size, horizontal)
-    pdf_file = pdf_writer.write(text)
+    pdf_file = pdf_writer.write(text_list)
 
     # レスポンスの作成
     response = make_response(pdf_file)
 
     # ファイル名を作成
-    file_name = quote(text + ".pdf")
+    file_name = quote(text_list[0] + ".pdf")
     response.headers['Content-Disposition'] = f"attachment; filename={file_name}; filename*=UTF-8''{file_name}"
     response.mimetype = 'application/pdf'
 
