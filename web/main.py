@@ -62,7 +62,7 @@ def create():
         return render_template(
             "index.html",
             workbooks=get_workbooks(),
-            error=f"文字数は{MAX_TEXT_SIZE}文字までとなっています。",
+            error=f"文字数は最大{MAX_TEXT_SIZE}文字までとなっています。",
             env=settings.env.value
         ), 421
 

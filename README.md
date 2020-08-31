@@ -144,4 +144,7 @@ $ exit
 # アプリを起動
 $ sh scripts/start.sh
 
+# STGアプリを起動
+$ sh scripts/start_stg.sh
+
 ```
