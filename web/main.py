@@ -36,7 +36,7 @@ def create():
     # リクエストパラメータを取得
     text_list = [text for text in request.args.getlist("text") if text is not None and len(text) != 0]
     # パラメータのバリデーション
-    if text_list[0] is None or len(text_list[0]) == 0:
+    if text_list is None or len(text_list) == 0 or len(text_list[0]) == 0:
         # log.info("Validation Error: text field is empty.")
         return render_template(
             "index.html",
