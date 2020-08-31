@@ -34,7 +34,7 @@ def index():
 def create():
 
     # リクエストパラメータを取得
-    text_list = request.args.getlist("text")
+    text_list = [text for text in request.args.getlist("text") if text is not None and len(text) != 0]
     # パラメータのバリデーション
     if text_list[0] is None or len(text_list[0]) == 0:
         # log.info("Validation Error: text field is empty.")
@@ -68,7 +68,7 @@ def create():
 
     # サンプルのPDFファイルを作成する
     if request.args.get("layout_specified") != "on":
-        layout = Layout.optimize_layout(text_list[0])  # 先頭で評価
+        layout = Layout.optimize_layout(sorted(text_list, key=lambda x: -len(x))[0])  # 一番長い文字列で評価
         pdf_writer = PdfWriter.from_layout(layout)
     else:
         pdf_writer = PdfWriter.make_pdf_writer(font_size, horizontal)
