@@ -9,6 +9,14 @@ from ..enums import Env
 
 WORKBOOK_PREFIX = "materials/workbooks"
 
+WORKBOOK_ORDER = {
+    "materials/workbooks/ひらがな練習ノート（五十音順）.pdf": 0,
+    "materials/workbooks/ひらがな練習ノート（字形順）.pdf": 1,
+    "materials/workbooks/カタカナ練習ノート（五十音順）.pdf": 2,
+    "materials/workbooks/カタカナ練習ノート（字形順）.pdf": 3,
+    "materials/workbooks/ひらがなカタカナの言葉.pdf": 4
+}
+
 
 @lru_cache
 def get_workbooks() -> List[WorkBook]:
@@ -21,7 +29,11 @@ def get_workbooks() -> List[WorkBook]:
         ]
     workbook_objects = S3Client.list_objects(WORKBOOK_PREFIX)
     workbook_keys = [obj.key for obj in workbook_objects]
-    return [WorkBook(key, key.split("/")[-1]) for key in workbook_keys if not key.endswith("/")]
+
+    return sorted(
+        [WorkBook(key, key.split("/")[-1]) for key in workbook_keys if not key.endswith("/")],
+        key=lambda workbook: WORKBOOK_ORDER.get(workbook.key, 100)
+    )
 
 
 @lru_cache
