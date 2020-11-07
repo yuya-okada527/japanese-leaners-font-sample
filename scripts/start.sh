@@ -16,7 +16,7 @@ fi
 docker stop jcw-demo-app
 
 # Dockerビルド
-# docker build -t jcw-demo-log:0.0.1 logs/
+docker build -t jcw-demo-log:0.0.1 logs/
 docker build -t jcw-demo:0.0.1 .
 
 # アプリ起動
