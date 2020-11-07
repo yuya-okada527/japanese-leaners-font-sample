@@ -2,7 +2,7 @@
 {% block content %}
 <!-- 説明 -->
 <h5 class="text-center my-4">
-  "Japanese Learners' Font" を使った日本語文字練習プリントを作成するサイトのトライアル版です。<br>
+  ”J-Learners Font”を使った日本語文字練習プリントを作成するサイトのトライアル版です。<br>
 </h5>
 
 <!-- PDF作成フォーム -->
@@ -89,6 +89,21 @@
   </div>
 </div>
 
+<!-- 概要説明 -->
+<div class="card bg-light border-dark mt-4 mb-4">
+  <div class="card-body">
+    <h4 class="card-title p-3">サイト概要</h4>
+    <div class="row">
+      <div class="col-12">
+        <ul>
+          <li><a href="{{url_for('static', filename = 'about_japanese.pdf')}}">日本語</a></li>
+          <li><a href="{{url_for('static', filename = 'about_english.pdf')}}">English</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- 教材ダウンロード -->
 <div class="card bg-light border-dark mt-4 mb-4">
   <div class="card-body">
@@ -117,29 +132,37 @@
   <div class="card-body">
     <h4 class="card-title p-3">今後の参考のため、アンケートへのご協力をお願いいたします</h4>
     <div class="row">
-      <div class="col-6">
+      <div class="col-12">
+        <h6 class="card-title px-3">J-Learners' Writing Practice ご利用アンケート（J-Learners' Writing Practice Usage Questionnaire）</h6>
         <ul>
-          <li><a href="https://forms.gle/XjMD1KfxWTZQfbcW9">アンケートフォーム</a></li>
+          <li><a href="https://forms.gle/6HVuBYbiPKTToMK56">日本語版</a></li>
+          <li><a href="https://forms.gle/S6gydnPsXMxrkCMZA">English</a></li>
+        </ul>
+        <h6 class="card-title px-3">ひらがな･カタカナ筆順アンケート（Japanese (Hiragana, Katakana) stroke order questionnaire）</h6>
+        <ul>
+          <li><a href="https://forms.gle/6mKN2NNiMdVTg8xf8">日本人・日本語母語話者用</a></li>
+          <li><a href="https://forms.gle/97sAm55qLGNewd386">for Foreigner / Japanese language learners</a></li>
         </ul>
       </div>
     </div>
   </div>
 </div>
 
-<!-- リリースノート -->
+<!-- Lineスタンプ -->
 <div class="card bg-light border-dark mt-4 mb-4">
   <div class="card-body">
-    <h4 class="card-title p-3">リリースノート</h4>
+    <h4 class="card-title p-3">LINEスタンプ作ってます</h4>
     <div class="row">
       <div class="col-12">
         <ul>
-          <li><span>レイアウト指定なしの場合、自動にレイアウトを調整する機能を追加 (8/24)</span></li>
-          <li><span>複数ページ生成機能を追加 (8/31)</span></li>
+          <li><a href="https://store.line.me/stickershop/author/717926/ja">LINEスタンプショップ</a></li>
         </ul>
       </div>
     </div>
   </div>
 </div>
+
+<!-- JavaScript -->
 <script>
   (function(){
     // ダウンロードボタンにイベントハンドラを追加

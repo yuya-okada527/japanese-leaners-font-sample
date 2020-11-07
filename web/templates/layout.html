@@ -2,9 +2,9 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>Japanese Character Worksheet{{ " {環境名=" + env + "}" if env != "prod" else "" }}</title>
+  <title>J-Learners' Writing Practice</title>
   <!-- ファビコン -->
-  <link rel="shortcut icon" href="https://japanse-character-workbook-public.s3-ap-northeast-1.amazonaws.com/images/main_logo.png">
+  <link rel="shortcut icon" href="https://japanse-character-workbook-public.s3-ap-northeast-1.amazonaws.com/images/icon_green.png">
   <!-- Bootstrap CDN -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" >
 </head>
@@ -19,7 +19,7 @@
            height="55"
            class="mr-3"
       >
-      <span class="h2 align-middle">Japanese Character Worksheet{{ " {環境名=" + env + "}" if env != "prod" else "" }}</span>
+      <span class="h2 align-middle">J-Learners' Writing Practice</span>
     </a>
   </nav>
 
@@ -27,9 +27,10 @@
 <!-- ここにメインコンテンツを書く -->
 {% endblock %}
 <!-- フッター -->
-  <footer class="footer border-top">
+  <footer class="footer border-top mb-4">
     <div class="container">
       <p class="text-muted text-left mb-0 mt-1">Japanese Character Worksheet</p>
+      <p class="text-muted text-left mb-0">Twitter: <a href="https://twitter.com/UjiieYuta">UjiieYuta</a></p>
       <p class="text-muted text-left mb-0">open: 2020/06/19</p>
     </div>
   </footer>
