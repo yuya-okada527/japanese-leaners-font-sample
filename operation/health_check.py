@@ -1,4 +1,5 @@
 import os
+import subprocess
 import urllib.request
 from urllib.error import URLError
 
@@ -17,6 +18,15 @@ def lambda_handler(event, context):
     except URLError as e:
         # 失敗の場合メール通知
         pass
+    
+    # Slackに通知する
+    slack_url = os.getenv("SLACK_POST_URL")
+    result = subprocess.run([
+        "curl", "-X", "POST", slack_url, 
+        "-d", "token=" + os.getenv("SLACK_BOT_TOKEN"),
+        "-d", "channel=" + os.getenv("NOTIFICATION_CHANNEL"),
+        "-d", "text=HealthCheckに失敗しました.  url: " + url
+    ])
 
     # メール通知
     client = boto3.client('ses',
