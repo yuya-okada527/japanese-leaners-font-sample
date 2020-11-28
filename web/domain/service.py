@@ -13,10 +13,10 @@ WORKBOOK_ORDER = {
     "materials/workbooks/ひらがな練習ノート（五十音順）Light版.pdf": 0,
     "materials/workbooks/ひらがな練習ノート（五十音順）Normal版.pdf": 1,
     "materials/workbooks/ひらがな練習ノート（字形順）Light版.pdf": 2,
-    "materials/workbooks/ひらがな練習ノート（字形順）Normal版.pdf	": 3,
+    "materials/workbooks/ひらがな練習ノート（字形順）Normal版.pdf": 3,
     "materials/workbooks/カタカナ練習ノート（五十音順）Light版.pdf": 4,
     "materials/workbooks/カタカナ練習ノート（五十音順）Normal版.pdf": 5,
-    "materials/workbooks/カタカナ練習ノート（字形順）Light版.pd": 6,
+    "materials/workbooks/カタカナ練習ノート（字形順）Light版.pdf": 6,
     "materials/workbooks/カタカナ練習ノート（字形順）Normal版.pdf": 7,
     "materials/workbooks/ひらがなカタカナの言葉.pdf": 8
 }
