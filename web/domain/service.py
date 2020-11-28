@@ -10,7 +10,6 @@ from ..enums import Env
 WORKBOOK_PREFIX = "materials/workbooks"
 
 WORKBOOK_ORDER = {
-    ,
     "materials/workbooks/ひらがな練習ノート（五十音順）Normal版.pdf": 0,
     "materials/workbooks/ひらがな練習ノート（字形順）Normal版.pdf": 1,
     "materials/workbooks/カタカナ練習ノート（五十音順）Normal版.pdf": 2,
