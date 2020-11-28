@@ -264,8 +264,7 @@
           {% endif %} {% endfor %}
         </ul>
         <ul>
-          {% for workbook in workbooks %} {% if "Normal" not in workbook.key and
-          "Light" not workbook.key %}
+          {% for workbook in workbooks %} {% if "Normal" not in workbook.key and "Light" not workbook.key %}
           <li>
             <a href="{{ url_for('download') + '?key=' + workbook.key }}">
               {{ workbook.name }}
