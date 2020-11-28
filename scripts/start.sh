@@ -16,13 +16,13 @@ fi
 docker stop jcw-demo-app
 
 # Dockerビルド
-docker build -t jcw-demo-log:0.0.1 logs/
+# docker build -t jcw-demo-log:0.0.1 logs/
 docker build -t jcw-demo:0.0.1 .
 
 # アプリ起動
-docker run --name jcw-demo-log --rm -d -p 8888:8888  \
---env-file logs/.env \
-jcw-demo-log:0.0.1
+# docker run --name jcw-demo-log --rm -d -p 8888:8888  \
+# --env-file logs/.env \
+# jcw-demo-log:0.0.1
 
 # 81ポートにルーティング
 docker run --name jcw-demo-app --rm -d -p 81:5000 \
