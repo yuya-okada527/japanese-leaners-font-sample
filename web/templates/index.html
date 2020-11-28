@@ -1,8 +1,8 @@
-{% extends "layout.html" %}
-{% block content %}
+{% extends "layout.html" %} {% block content %}
 <!-- 説明 -->
 <h5 class="text-center my-4">
-  ”J-Learners Font”を使った日本語文字練習プリントを作成するサイトのトライアル版です。<br>
+  ”J-Learners
+  Font”を使った日本語文字練習プリントを作成するサイトのトライアル版です。<br />
 </h5>
 
 <!-- PDF作成フォーム -->
@@ -11,30 +11,83 @@
     <div class="row">
       <div class="col-6">
         <h4 class="card-title p-3">文字練習用シート(PDF)作成</h4>
-        <p class="card-subtitle text-muted mb-3 px-3">下記に入力した文字で、A4サイズの練習シートを作成できます。(A4ヨコにも対応)</p>
+        <p class="card-subtitle text-muted mb-3 px-3">
+          下記に入力した文字で、A4サイズの練習シートを作成できます。(A4ヨコにも対応)
+        </p>
       </div>
       <div class="col-4">
-        <img src="https://japanse-character-workbook-public.s3-ap-northeast-1.amazonaws.com/images/Yoz.png"
-             width="100"
-             height="120"
-             class="mx-auto d-block"
-        >
+        <img
+          src="https://japanse-character-workbook-public.s3-ap-northeast-1.amazonaws.com/images/Yoz.png"
+          width="100"
+          height="120"
+          class="mx-auto d-block"
+        />
       </div>
     </div>
     <form method="get" action="{{ url_for('create') }}">
       <div class="form-group px-3">
         <label class="control-label">入力欄</label>
-        <input id="LayoutSpecified" class="form-check-input ml-2" type="checkbox" name="layout_specified">
-        <label class="form-check-label text-muted ml-4" for="LayoutSpecified">レイアウトを指定</label>
-        <input id="TextBox1" class="form-control" type="text" name="text" placeholder="例: リオネル メッシ">
-        <input id="TextBox2" class="form-control" type="text" name="text" placeholder="例: クリスティアーノ ロナウド" hidden>
-        <input id="TextBox3" class="form-control" type="text" name="text" placeholder="例: ネイマール" hidden>
-        <input id="TextBox4" class="form-control" type="text" name="text" placeholder="例: 中田 英寿" hidden>
-        <input id="TextBox5" class="form-control" type="text" name="text" placeholder="例: 澤 穂希" hidden>
+        <input
+          id="LayoutSpecified"
+          class="form-check-input ml-2"
+          type="checkbox"
+          name="layout_specified"
+        />
+        <label class="form-check-label text-muted ml-4" for="LayoutSpecified"
+          >レイアウトを指定</label
+        >
+        <input
+          id="TextBox1"
+          class="form-control"
+          type="text"
+          name="text"
+          placeholder="例: リオネル メッシ"
+        />
+        <input
+          id="TextBox2"
+          class="form-control"
+          type="text"
+          name="text"
+          placeholder="例: クリスティアーノ ロナウド"
+          hidden
+        />
+        <input
+          id="TextBox3"
+          class="form-control"
+          type="text"
+          name="text"
+          placeholder="例: ネイマール"
+          hidden
+        />
+        <input
+          id="TextBox4"
+          class="form-control"
+          type="text"
+          name="text"
+          placeholder="例: 中田 英寿"
+          hidden
+        />
+        <input
+          id="TextBox5"
+          class="form-control"
+          type="text"
+          name="text"
+          placeholder="例: 澤 穂希"
+          hidden
+        />
       </div>
-      <div class="alert alert-warning mx-3" role="alert" id="warn_for_text" hidden>文字数は最大15文字までとなっています。</div>
+      <div
+        class="alert alert-warning mx-3"
+        role="alert"
+        id="warn_for_text"
+        hidden
+      >
+        文字数は最大15文字までとなっています。
+      </div>
       {% if error %}
-      <div class="alert alert-danger mx-3" role="alert" id="error_for_text">{{ error }}</div>
+      <div class="alert alert-danger mx-3" role="alert" id="error_for_text">
+        {{ error }}
+      </div>
       {% endif %}
 
       <!-- レイアウト制御 -->
@@ -42,28 +95,59 @@
         <div class="row">
           <div class="form-check form-check-inline col-10">
             <label class="control-label col-2 my-1">フォントサイズ:</label>
-            <ul class="list-unstyled" style="padding-left: 15px;">
-            <li>
-              <input class="form-check-input" type="radio" name="font-size" id="small-size" value="small" checked>
-              <label class="form-check-label" for="small-size" style="width: 70px;">
-                Small
-              </label>
-              <span>(A4タテ=最大10文字まで。A4ヨコ=最大15文字まで)</span>
-            </li>
-            <li>
-              <input class="form-check-input" type="radio" name="font-size" id="middle-size" value="middle">
-              <label class="form-check-label" for="middle-size" style="width: 70px;">
-                Middle
-              </label>
-              <span>(A4タテ=最大8文字まで。A4ヨコ=最大13文字まで)</span>
-            </li>
-            <li>
-              <input class="form-check-input" type="radio" name="font-size" id="large-size" value="large">
-              <label class="form-check-label" for="large-size" style="width: 70px;">
-                Large
-              </label>
-              <span>(A4タテ=最大6文字まで。A4ヨコ=最大10文字まで)</span>
-            </li>
+            <ul class="list-unstyled" style="padding-left: 15px">
+              <li>
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="font-size"
+                  id="small-size"
+                  value="small"
+                  checked
+                />
+                <label
+                  class="form-check-label"
+                  for="small-size"
+                  style="width: 70px"
+                >
+                  Small
+                </label>
+                <span>(A4タテ=最大10文字まで。A4ヨコ=最大15文字まで)</span>
+              </li>
+              <li>
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="font-size"
+                  id="middle-size"
+                  value="middle"
+                />
+                <label
+                  class="form-check-label"
+                  for="middle-size"
+                  style="width: 70px"
+                >
+                  Middle
+                </label>
+                <span>(A4タテ=最大8文字まで。A4ヨコ=最大13文字まで)</span>
+              </li>
+              <li>
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="font-size"
+                  id="large-size"
+                  value="large"
+                />
+                <label
+                  class="form-check-label"
+                  for="large-size"
+                  style="width: 70px"
+                >
+                  Large
+                </label>
+                <span>(A4タテ=最大6文字まで。A4ヨコ=最大10文字まで)</span>
+              </li>
             </ul>
           </div>
         </div>
@@ -71,8 +155,18 @@
           <div class="form-check form-check-inline col-10">
             <label class="control-label col-2 my-1">用紙の向き:</label>
             <div class="col-3">
-              <input class="form-check-input" type="checkbox" name="horizontal" id="horizontal" value="true">
-              <label class="form-check-label" for="horizontal" style="font-size: 92%;">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                name="horizontal"
+                id="horizontal"
+                value="true"
+              />
+              <label
+                class="form-check-label"
+                for="horizontal"
+                style="font-size: 92%"
+              >
                 ヨコ
               </label>
             </div>
@@ -82,7 +176,9 @@
       <div class="form-row text-center">
         <div class="col-12">
           <div class="btn btn-primary" id="AddTextBox" data-num="1">追加</div>
-          <button class="btn btn-primary" type="submit" id="download">ダウンロード</button>
+          <button class="btn btn-primary" type="submit" id="download">
+            ダウンロード
+          </button>
         </div>
       </div>
     </form>
@@ -96,7 +192,14 @@
     <div class="row">
       <div class="col-12">
         <ul>
-          <li><a href="{{url_for('static', filename = 'characters.pdf')}}" target="_blank" rel="noopener">サンプル＆収録文字</a></li>
+          <li>
+            <a
+              href="{{url_for('static', filename = 'characters.pdf')}}"
+              target="_blank"
+              rel="noopener"
+              >サンプル＆収録文字</a
+            >
+          </li>
         </ul>
       </div>
     </div>
@@ -106,12 +209,28 @@
 <!-- 概要説明 -->
 <div class="card bg-light border-dark mt-4 mb-4">
   <div class="card-body">
-    <h4 class="card-title p-3">このサイト（フォント）について（About this site）</h4>
+    <h4 class="card-title p-3">
+      このサイト（フォント）について（About this site）
+    </h4>
     <div class="row">
       <div class="col-12">
         <ul>
-          <li><a href="{{url_for('static', filename = 'about_japanese.pdf')}}" target="_blank" rel="noopener">日本語</a></li>
-          <li><a href="{{url_for('static', filename = 'about_english.pdf')}}"  target="_blank" rel="noopener">English</a></li>
+          <li>
+            <a
+              href="{{url_for('static', filename = 'about_japanese.pdf')}}"
+              target="_blank"
+              rel="noopener"
+              >日本語</a
+            >
+          </li>
+          <li>
+            <a
+              href="{{url_for('static', filename = 'about_english.pdf')}}"
+              target="_blank"
+              rel="noopener"
+              >English</a
+            >
+          </li>
         </ul>
       </div>
     </div>
@@ -121,21 +240,38 @@
 <!-- 教材ダウンロード -->
 <div class="card bg-light border-dark mt-4 mb-4">
   <div class="card-body">
-    <h4 class="card-title p-3">ひらがな・カタカナ練習教材ダウンロード（Text Download）</h4>
+    <h4 class="card-title p-3">
+      ひらがな・カタカナ練習教材ダウンロード（Text Download）
+    </h4>
     <div class="row">
       <div class="col-6">
         <ul>
-          {% for workbook in workbooks %}
-          <li><a href="{{ url_for('download') + '?key=' + workbook.key }}">{{ workbook.name }}</a></li>
-          {% endfor %}
+          {% for workbook in workbooks %} {% if "Normal" in workbook.key %}
+          <li>
+            <a href="{{ url_for('download') + '?key=' + workbook.key }}">
+              {{ workbook.name }}
+            </a>
+          </li>
+          {% endif %} {% endfor %}
+        </ul>
+        <br />
+        <ul>
+          {% for workbook in workbooks %} {% if "Normal" not in workbook.key %}
+          <li>
+            <a href="{{ url_for('download') + '?key=' + workbook.key }}">
+              {{ workbook.name }}
+            </a>
+          </li>
+          {% endif %} {% endfor %}
         </ul>
       </div>
       <div class="col-4">
-        <img src="https://japanse-character-workbook-public.s3-ap-northeast-1.amazonaws.com/images/Toza.png"
-             width="100"
-             height="120"
-             class="mx-auto d-block"
-        >
+        <img
+          src="https://japanse-character-workbook-public.s3-ap-northeast-1.amazonaws.com/images/Toza.png"
+          width="100"
+          height="120"
+          class="mx-auto d-block"
+        />
       </div>
     </div>
   </div>
@@ -144,18 +280,54 @@
 <!-- アンケートフォーム -->
 <div class="card bg-light border-dark mt-4 mb-4">
   <div class="card-body">
-    <h4 class="card-title p-3">今後の参考のため、アンケートへのご協力をお願いいたします</h4>
+    <h4 class="card-title p-3">
+      今後の参考のため、アンケートへのご協力をお願いいたします
+    </h4>
     <div class="row">
       <div class="col-12">
-        <h6 class="card-title px-3">J-Learners' Writing Practice ご利用アンケート（J-Learners' Writing Practice Usage Questionnaire）</h6>
+        <h6 class="card-title px-3">
+          J-Learners' Writing Practice ご利用アンケート（J-Learners' Writing
+          Practice Usage Questionnaire）
+        </h6>
         <ul>
-          <li><a href="https://forms.gle/6HVuBYbiPKTToMK56" target="_blank" rel="noopener noreferrer">日本語版</a></li>
-          <li><a href="https://forms.gle/S6gydnPsXMxrkCMZA" target="_blank" rel="noopener noreferrer">English</a></li>
+          <li>
+            <a
+              href="https://forms.gle/6HVuBYbiPKTToMK56"
+              target="_blank"
+              rel="noopener noreferrer"
+              >日本語版</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://forms.gle/S6gydnPsXMxrkCMZA"
+              target="_blank"
+              rel="noopener noreferrer"
+              >English</a
+            >
+          </li>
         </ul>
-        <h6 class="card-title px-3">ひらがな･カタカナ筆順アンケート（Japanese (Hiragana, Katakana) stroke order questionnaire）</h6>
+        <h6 class="card-title px-3">
+          ひらがな･カタカナ筆順アンケート（Japanese (Hiragana, Katakana) stroke
+          order questionnaire）
+        </h6>
         <ul>
-          <li><a href="https://forms.gle/6mKN2NNiMdVTg8xf8" target="_blank" rel="noopener">日本人・日本語母語話者用</a></li>
-          <li><a href="https://forms.gle/97sAm55qLGNewd386" target="_blank" rel="noopener">for Foreigner / Japanese language learners</a></li>
+          <li>
+            <a
+              href="https://forms.gle/6mKN2NNiMdVTg8xf8"
+              target="_blank"
+              rel="noopener"
+              >日本人・日本語母語話者用</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://forms.gle/97sAm55qLGNewd386"
+              target="_blank"
+              rel="noopener"
+              >for Foreigner / Japanese language learners</a
+            >
+          </li>
         </ul>
       </div>
     </div>
@@ -169,7 +341,14 @@
     <div class="row">
       <div class="col-12">
         <ul>
-          <li><a href="https://store.line.me/stickershop/author/717926/ja" target="_blank" rel="noopener">ロボットのLINEスタンプ</a></li>
+          <li>
+            <a
+              href="https://store.line.me/stickershop/author/717926/ja"
+              target="_blank"
+              rel="noopener"
+              >ロボットのLINEスタンプ</a
+            >
+          </li>
         </ul>
       </div>
     </div>
@@ -178,52 +357,64 @@
 
 <!-- JavaScript -->
 <script>
-  (function(){
+  (function () {
     // ダウンロードボタンにイベントハンドラを追加
     let download = document.getElementById("download");
-    download.addEventListener("click", function() {
+    download.addEventListener(
+      "click",
+      function () {
+        // ダウンロード時にエラーメッセージを消すようにする
+        var error = document.getElementById("error_for_text");
 
-      // ダウンロード時にエラーメッセージを消すようにする
-      var error = document.getElementById("error_for_text");
-
-      if (error) {
-        error.style.display = "none"
-      }
-    }, false);
+        if (error) {
+          error.style.display = "none";
+        }
+      },
+      false
+    );
 
     // レイアウト指定チェックボックスにイベントハンドラを追加
-    document.getElementById("LayoutSpecified").addEventListener("click", function(e) {
-
-      // チェックせれているかで、可視状態を制御
-      if (e.target.checked) {
-        document.getElementById("LayoutControl").hidden = false;
-      } else {
-        document.getElementById("LayoutControl").hidden = true;
-      }
-    }, false);
+    document.getElementById("LayoutSpecified").addEventListener(
+      "click",
+      function (e) {
+        // チェックせれているかで、可視状態を制御
+        if (e.target.checked) {
+          document.getElementById("LayoutControl").hidden = false;
+        } else {
+          document.getElementById("LayoutControl").hidden = true;
+        }
+      },
+      false
+    );
 
     // テキストの文字列長制限を超えた場合、警告を出す
     for (let i = 1; i <= 5; i++) {
       let id = "TextBox" + i;
-      document.getElementById(id).addEventListener("input", function(e) {
-        // 文字列長をチェック
-        if (e.target.value.length > 15) {
-          document.getElementById("warn_for_text").hidden = false;
-          document.getElementById("download").disabled = true;
-        } else {
-          document.getElementById("warn_for_text").hidden = true;
-          document.getElementById("download").disabled = false;
-        }
-      }, false);
+      document.getElementById(id).addEventListener(
+        "input",
+        function (e) {
+          // 文字列長をチェック
+          if (e.target.value.length > 15) {
+            document.getElementById("warn_for_text").hidden = false;
+            document.getElementById("download").disabled = true;
+          } else {
+            document.getElementById("warn_for_text").hidden = true;
+            document.getElementById("download").disabled = false;
+          }
+        },
+        false
+      );
     }
 
     // テキストボックス追加イベントを追加
-    document.getElementById("AddTextBox").addEventListener("click", function() {
-      let num = document.getElementById("AddTextBox").dataset.num;
-      num++;
-      document.getElementById("AddTextBox").dataset.num = num;
-      document.getElementById("TextBox" + num).hidden = false;
-    })
+    document
+      .getElementById("AddTextBox")
+      .addEventListener("click", function () {
+        let num = document.getElementById("AddTextBox").dataset.num;
+        num++;
+        document.getElementById("AddTextBox").dataset.num = num;
+        document.getElementById("TextBox" + num).hidden = false;
+      });
   })();
 </script>
 {% endblock %}
