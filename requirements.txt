@@ -7,7 +7,7 @@ docutils==0.15.2
 Flask==1.1.2
 fonttools==4.12.1
 itsdangerous==1.1.0
-Jinja2==2.11.2
+Jinja2==2.11.3
 jmespath==0.10.0
 MarkupSafe==1.1.1
 otf2ttf==0.2
