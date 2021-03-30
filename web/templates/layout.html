@@ -1,44 +1,83 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <title>J-Learners' Writing Practice</title>
-  <!-- ファビコン -->
-  <link rel="shortcut icon" href="https://japanse-character-workbook-public.s3-ap-northeast-1.amazonaws.com/images/icon_green.png">
-  <!-- Bootstrap CDN -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" >
-</head>
-<body>
-<div class="container">
-
-  <!-- ナビゲーション -->
-  <nav class="navbar navbar-dark p-4 my-4" style="background-color: #7abe32;">
-    <a class="navbar-brand " href="{{ url_for('index') }}">
-      <img src="https://japanse-character-workbook-public.s3-ap-northeast-1.amazonaws.com/images/main_logo.png"
-           width="55"
-           height="55"
-           class="mr-3"
-      >
-      <span class="h2 align-middle">J-Learners' Writing Practice</span>
-    </a>
-  </nav>
-
-{% block content %}
-<!-- ここにメインコンテンツを書く -->
-{% endblock %}
-<!-- フッター -->
-  <footer class="footer border-top mb-4">
+  <head>
+    <meta charset="UTF-8" />
+    <title>J-Learners' Writing Practice</title>
+    <!-- ファビコン -->
+    <link
+      rel="shortcut icon"
+      href="https://japanse-character-workbook-public.s3-ap-northeast-1.amazonaws.com/images/icon_green.png"
+    />
+    <!-- Bootstrap CDN -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-9HXHW26QTJ"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-9HXHW26QTJ");
+    </script>
+  </head>
+  <body>
     <div class="container">
-      <p class="text-muted text-left mb-0 mt-1">Japanese Character Worksheet</p>
-      <p class="text-muted text-left mb-0">Twitter: <a href="https://twitter.com/UjiieYuta">UjiieYuta</a></p>
-      <p class="text-muted text-left mb-0">open: 2020/11/07</p>
-    </div>
-  </footer>
+      <!-- ナビゲーション -->
+      <nav
+        class="navbar navbar-dark p-4 my-4"
+        style="background-color: #7abe32"
+      >
+        <a class="navbar-brand" href="{{ url_for('index') }}">
+          <img
+            src="https://japanse-character-workbook-public.s3-ap-northeast-1.amazonaws.com/images/main_logo.png"
+            width="55"
+            height="55"
+            class="mr-3"
+          />
+          <span class="h2 align-middle">J-Learners' Writing Practice</span>
+        </a>
+      </nav>
 
-</div>
-<!-- jQuery for Bootstrap -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-</body>
+      {% block content %}
+      <!-- ここにメインコンテンツを書く -->
+      {% endblock %}
+      <!-- フッター -->
+      <footer class="footer border-top mb-4">
+        <div class="container">
+          <p class="text-muted text-left mb-0 mt-1">
+            Japanese Character Worksheet
+          </p>
+          <p class="text-muted text-left mb-0">
+            Twitter: <a href="https://twitter.com/UjiieYuta">UjiieYuta</a>
+          </p>
+          <p class="text-muted text-left mb-0">open: 2020/11/07</p>
+        </div>
+      </footer>
+    </div>
+    <!-- jQuery for Bootstrap -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>

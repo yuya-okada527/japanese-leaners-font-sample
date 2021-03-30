@@ -16,7 +16,7 @@ from ..infra.s3 import S3Client
 from ..enums import FontSize, Env
 
 FONT_NAME = "JapaneseLearnersFont"
-FONT_KEY = "fonts/ttf/JapaneseLearners1.ttf"
+FONT_KEY = "fonts/ttf/J-Learners1.ttf"
 COLOR_GRAY = (0.7, 0.7, 0.7)
 SPACES = " 　"
 
@@ -24,10 +24,10 @@ SPACES = " 　"
 def init_font():
     if settings.env == Env.LOCAL:
         return os.path.join(
-            Path(__file__).resolve().parents[3],
+            Path(__file__).resolve().parents[2],
             "fonts",
             "ttf",
-            "JapaneseLearners1.ttf"
+            "J-Learners1.ttf"
         )
 
     return BytesIO(S3Client.get_object(FONT_KEY).get()["Body"].read())
