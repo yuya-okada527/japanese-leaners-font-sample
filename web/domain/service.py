@@ -44,4 +44,3 @@ def get_workbooks() -> List[WorkBook]:
 def get_workbook(key: str):
     workbook_object = S3Client.get_object(key)
     return workbook_object.get()["Body"].read()
-

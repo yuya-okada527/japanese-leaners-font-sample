@@ -6,7 +6,7 @@ if [ ! -e .env ]; then
 fi
 
 # 起動ずみのコンテナを停止
-# docker stop jcw-demo-log
+docker stop jcw-demo-log
 docker stop jcw-demo-app
 
 # Dockerビルド
