@@ -22,7 +22,7 @@ $ docker tag jcw-demo:latest {AWSAccount}.dkr.ecr.ap-northeast-1.amazonaws.com/u
 $ docker push {AWSAccount}.dkr.ecr.ap-northeast-1.amazonaws.com/ujiie/jcw-demo-app:latest
 
 # OTFからTTFへの変換(結構時間かかる)
-$ otf2ttf ./fonts/ttf/JapaneseLearners1.otf
+$ otf2ttf ./fonts/otf/J-Learners1.otf
 ```
 
 ### サーバー起動手順
