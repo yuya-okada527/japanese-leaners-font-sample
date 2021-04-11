@@ -16,12 +16,15 @@ from ..infra.s3 import S3Client
 from ..enums import FontSize, Env
 
 FONT_NAME = "JapaneseLearnersFont"
+FONT_NAME2B = "JapaneseLearnersFont2B"
 FONT_KEY = "fonts/ttf/J-Learners1.ttf"
+FONT_KEY2B = "fonts/ttf/J-Learners2B.ttf"
 COLOR_GRAY = (0.7, 0.7, 0.7)
 SPACES = " 　"
 
 
 def init_font():
+    print("init_font")
     if settings.env == Env.LOCAL:
         return os.path.join(
             Path(__file__).resolve().parents[2],
@@ -33,8 +36,22 @@ def init_font():
     return BytesIO(S3Client.get_object(FONT_KEY).get()["Body"].read())
 
 
+def init_font2b():
+    print("init_font2b")
+    if settings.env == Env.LOCAL:
+        return os.path.join(
+            Path(__file__).resolve().parents[2],
+            "fonts",
+            "ttf",
+            "J-Learners2B.ttf"
+        )
+
+    return BytesIO(S3Client.get_object(FONT_KEY2B).get()["Body"].read())
+
+
 # PDF生成の設定を変更
 pdfmetrics.registerFont(TTFont(FONT_NAME, init_font()))
+pdfmetrics.registerFont(TTFont(FONT_NAME2B, init_font2b()))
 
 
 @dataclass()
@@ -109,20 +126,20 @@ class PdfWriter:
                 # テーブルスタイルを作成
                 table_style = [
                     ("FONT", (0, 0), (-1, -1), self.font_name, self.layout.font_size),
-                    ("TEXTCOLOR",
+                    ("FONT",
                     (0, self.layout.practice_num),
                     (len(text) - 1, self.layout.practice_num),
-                    COLOR_GRAY),
+                    FONT_NAME2B, self.layout.font_size),
                     ("LEFTPADDING", (0, 0), (-1, -1), 0),
                     ("RIGHTPADDING", (0, 0), (-1, -1), 0),
                 ]
 
                 if self.layout.sample_num == 2:
                     table_style.append(
-                        ("TEXTCOLOR",
+                        ("FONT",
                         (0, self.layout.practice_num * 2 + 2),
                         (len(text) - 1, self.layout.practice_num * 2 + 2),
-                        COLOR_GRAY),
+                        FONT_NAME2B, self.layout.font_size),
                     )
                 table.setStyle(TableStyle(table_style))
 
